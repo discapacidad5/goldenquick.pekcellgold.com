@@ -1,0 +1,62 @@
+/*
+* CometChat 
+* Copyright (c) 2014 Inscripts - support@cometchat.com | http://www.cometchat.com | http://www.inscripts.com
+*/
+
+.cometchat_ccmobiletab_redirect {
+	background-color: <?php echo $themeSettings['bar_background'];?>;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='<?php echo $themeSettings['bar_gradient_start'];?>', endColorstr='<?php echo $themeSettings['bar_gradient_end'];?>');
+	background: -webkit-gradient(linear, left top, left bottom, from(<?php echo $themeSettings['bar_gradient_start'];?>), to(<?php echo $themeSettings['bar_gradient_end'];?>));
+	background: -moz-linear-gradient(top, <?php echo $themeSettings['bar_gradient_start'];?>, <?php echo $themeSettings['bar_gradient_end'];?>);
+	background: -ms-linear-gradient(top, <?php echo $themeSettings['bar_gradient_start'];?>, <?php echo $themeSettings['bar_gradient_end'];?>);
+	background: -o-linear-gradient(top, <?php echo $themeSettings['bar_gradient_start'];?>, <?php echo $themeSettings['bar_gradient_end'];?>);
+	border-top: 1px solid <?php echo $themeSettings['bar_border'];?>;
+	border-left: 1px solid <?php echo $themeSettings['bar_border'];?>;
+	border-right: 1px solid <?php echo $themeSettings['bar_border'];?>;
+	position:fixed;
+	bottom:0;
+	right: 10%;
+	width: 25%;
+	font-size: 65%;
+	height: 5%;
+	line-height: 250%;
+	text-align: center;
+	color: <?php echo $themeSettings['bar_color'];?>;
+	cursor: pointer;
+	font-weight: bold;
+	font-family: <?php echo $themeSettings['bar_font_family'];?>;
+	border-radius: 10px 10px 0 0;
+	-webkit-border-radius: 10px 10px 0 0;
+	-moz-border-radius: 10px 10px 0 0;
+	text-shadow: 1px 1px 0px <?php echo $themeSettings['bar_text_background'];?>;
+        z-index: 99999;
+}
+
+.cometchat_ccmobiletab_tabalert {
+	background: none repeat scroll 0 0 #EE397A;
+	border-radius: 10px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	color: white;
+	position: absolute;
+	right: 30%;
+	text-shadow: 0px 0px 35px white;
+	text-align: center;
+	text-shadow: none !important;
+	bottom : 90%;
+	padding: 0 10px;
+	line-height: normal;
+	border-width: 3px 5px 3px;
+	border-style: solid;
+	border-color: #D11559;
+}
+
+.cometchat_ccmobiletab_tabalert:before {
+	border-color: #D11559 transparent transparent;
+	border-style: solid;
+	border-width: 9px;
+	bottom: -18px;
+	content: "";
+	position: absolute;
+	right: 20%;
+}

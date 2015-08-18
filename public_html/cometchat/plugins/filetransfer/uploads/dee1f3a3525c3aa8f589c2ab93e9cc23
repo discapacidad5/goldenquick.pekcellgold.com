@@ -1,0 +1,18 @@
+select DISTINCT users.id userid,
+	users.username username,  users.username link,
+	users.id  avatar, cometchat_status.lastactivity lastactivity, 
+	cometchat_status.status, cometchat_status.message, 
+	cometchat_status.isdevice from (users left join cometchat_status 
+    on users.id = cometchat_status.userid)  join afiliar 
+    on afiliar.id=users.id where afiliar.id_red="2"
+
+
+
+"select DISTINCT users.id userid,
+			users.username username,  users.username link,
+			users.id  avatar, cometchat_status.lastactivity lastactivity, 
+			cometchat_status.status, cometchat_status.message, 
+			cometchat_status.isdevice from (users left join cometchat_status 
+		    on users.id = cometchat_status.userid) left join afiliar 
+		    on afiliar.id=users.id where afiliar.id_red=(select afiliar.id_red from afiliar where afiliar.id=".$userid.")");
+	

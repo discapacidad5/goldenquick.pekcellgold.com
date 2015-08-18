@@ -1,0 +1,56 @@
+PASOS PARA INICIAR OFICINA VIRTUAL
+1) Copiar repositorio a la carpeta www.
+2) Importar la base de datos.
+3) Configurar el archivo application/datases.php.
+4) Crear disco virtual oficina.pekcellgold.com.
+5) Cambiar Dns en /etc/hosts.
+
+   127.0.0.1 oficina.pekcellgold.com
+
+6) Agregar en /etc/apache2/apache2config.
+
+<Directory /var/www/oficina.pekcellgold.com>
+	Options Indexes FollowSymLinks
+	AllowOverride All
+	Allow from all
+	Require all granted
+</Directory>
+
+	sudo a2enmod rewrite
+	
+	y en el archivo de config(/etc/apache2/apache2.conf) de apache cambiar
+	<Directory /var/www/>
+		Options Indexes FollowSymLinks
+		AllowOverride All
+		Allow from all
+		Require all granted
+	</Directory>
+
+agregar a la BD
+
+create view afiliados as
+select afiliar.id, user_profiles.user_id,afiliar.id_red, afiliar.debajo_de, afiliar.directo, afiliar.lado, user_profiles.nombre, user_profiles.apellido
+from afiliar, user_profiles where afiliar.id_afiliado = user_profiles.user_id; 
+
+7. Habilitar el uso de las etiquetas <? 
+	abrir el archivo de php.ini
+		sudo gedit /etc/php5/apache2/php.ini
+	buscar la linea
+		short_open_tag = Off
+	reemplazar por:
+		short_open_tag = On
+
+8. Habilitar Administrador de Base de Datos
+En mysql 
+	GRANT ALL PRIVILEGES
+	ON *.*
+	TO 'user'@'%'
+	IDENTIFIED BY 'password';
+En terminal 
+	/etc/mysql/my.cnf
+	[Editar la linea]   
+	bind-address        = 192.168.0.116
+
+En terminal 
+	stop mysql
+	start mysql

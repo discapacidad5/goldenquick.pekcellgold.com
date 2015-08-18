@@ -1,0 +1,22 @@
+<?php
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/* SETTINGS START */
+
+$headerColor = '#000000';
+
+
+/* SETTINGS END */
+
+$pushNotifications = '1';
+$pushAPIKey = '';
+$pushOauthSecret = '';
+$pushOauthKey = '';
+$notificationName = '';
+
+define('PARSE_PUSH_URL', 'https://api.parse.com/1/push');
+define('PARSE_APP_ID', '2Y5iHnPuUVdQXCmDpaioF4TWhnpTB0YkhwAF5sSl');
+define('PARSE_REST_KEY', 'Bw86e72pvTSwDnG0SKfTqeG5N1ieV4bPOK6ItaMO');
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
