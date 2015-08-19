@@ -1,0 +1,91 @@
+<?php
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/* LANGUAGE */
+
+$mobileapp_language[0] = 'Chat';
+$mobileapp_language[1] = 'Usuarios en línea párr chatear ';
+$mobileapp_language[2] = 'X';
+$mobileapp_language[3] = 'Lobby';
+$mobileapp_language[4] = 'No hay usuarios en línea. en este momento';
+$mobileapp_language[5] = 'Lo sentimos, usted ha cerrado la sesión';
+$mobileapp_language[6] = 'Me';
+$mobileapp_language[7] = ':';
+$mobileapp_language[8] = 'X';
+$mobileapp_language[9] = 'Escriba el mensaje';
+$mobileapp_language[10] = 'Nombre de usuario';
+$mobileapp_language[11] = 'contraseña';
+$mobileapp_language[12] = 'Login';
+$mobileapp_language[13] = 'Nombre de usuario y la contraseña no coinciden ';
+$mobileapp_language[14] = 'Nombre de usuario o contraseña no puede estar en blanco';
+$mobileapp_language[15] = 'Buscar usuario';
+$mobileapp_language[16] = 'Buscar Chatroom';
+$mobileapp_language[17] = 'Escriba el mensaje';
+$mobileapp_language[18] = 'Chat';
+$mobileapp_language[19] = 'Chatroom';
+$mobileapp_language[20] = 'chat uno-a-uno';
+$mobileapp_language[21] = 'Las salas de chat ';
+$mobileapp_language[22] = 'Crear Chatroom';
+$mobileapp_language[23] = 'Ajustes';
+$mobileapp_language[24] = 'No se puede conectar. Por favor, compruebe su conexión a Internet';
+$mobileapp_language[25] = 'Cerrar sesión';
+$mobileapp_language[26] = 'Editar Estado';
+$mobileapp_language[27] = 'razón';
+$mobileapp_language[28] = 'enviar';
+$mobileapp_language[29] = '¿Seguro que quieres salir?';
+$mobileapp_language[30] = 'Unirse a sala de chat ...';
+$mobileapp_language[31] = 'informe';
+$mobileapp_language[32] = 'cancelar';
+$mobileapp_language[33] = 'si';
+$mobileapp_language[34] = 'no';
+$mobileapp_language[35] = 'Usuarios en línea';
+$mobileapp_language[36] = 'invitar';
+$mobileapp_language[37] = 'hoy';
+$mobileapp_language[38] = 'confirmar Envío';
+$mobileapp_language[39] = 'Okay';
+$mobileapp_language[40] = 'advertencia';
+$mobileapp_language[41] = 'crear';
+$mobileapp_language[42] = 'Error al crear el chat';
+$mobileapp_language[43] = 'Llamada';
+$mobileapp_language[44] = 'llamada entrante';
+$mobileapp_language[45] = 'confirmar Envío';
+$mobileapp_language[46] = 'Por favor, ingrese una contraseña';
+$mobileapp_language[47] = 'Nombre de usuario no puede estar en blanco';
+$mobileapp_language[48] = 'URL no válida';
+$mobileapp_language[49] = 'Compruebe su nombre de usuario';
+$mobileapp_language[50] = 'Revise su contraseña';
+$mobileapp_language[51] = 'Por favor compruebe la URL';
+$mobileapp_language[52] = 'CometChat necesita ser actualizado en el sitio para utilizar esta aplicación. En el mientras tanto, puede descargar nuestro legado App que es compatible con la versión en este sitio.';
+$mobileapp_language[53] = 'Registrarse';
+$mobileapp_language[54] = 'Acuérdate de mí';
+$mobileapp_language[55] = 'Iniciando sesión ...';
+$mobileapp_language[56] = 'No se pudo conectar';
+$mobileapp_language[57] = 'No hay conexión a internet';
+$mobileapp_language[58] = 'Tiempo de espera de conexión';
+$mobileapp_language[59] = 'Hecho';
+$mobileapp_language[60] = 'Esta función no está disponible en aplicaciones móviles. Para utilizar este Entra en la cuenta a través del navegador de escritorio.';
+$mobileapp_language[61] = 'casa';
+$mobileapp_language[62] = 'anuncio';
+$mobileapp_language[63] = 'leer más';
+$mobileapp_language[64] = 'leer menos';
+$mobileapp_language[65] = 'Límite de tamaño del archivo excede';
+$mobileapp_language[66] = 'te ha enviado un mensaje';
+$mobileapp_language[67] = 'Por favor, seleccione al menos un usuario';
+$mobileapp_language[68] = 'Invita a tus amigos';
+$mobileapp_language[69] = 'Error al bloqueo de usuario';
+$mobileapp_language[70] = 'Error al usuario desbloqueo';
+$mobileapp_language[71] = 'No se puede enviar mensaje vacío';
+$mobileapp_language[72] = 'No hay contacto seleccionado';
+$mobileapp_language[73] = 'No se han encontrado contactos';
+$mobileapp_language[74] = 'Este dispositivo no puede enviar SMS';
+$mobileapp_language[75] = 'Este video ya está guardado. ¿Quieres guardarlo de nuevo';
+$mobileapp_language[76] = 'Hola! Estoy usando CometChat hablar, compartir y colaborar con mis amigos. Únete a nosotros! Descargar: http://g.cometchat.com/cometchat-ios';
+$mobileapp_language[77] = 'Hola! Estoy usando CometChat hablar, compartir y colaborar con mis amigos. Únete a nosotros! Descargar: http://g.cometchat.com/cometchat-android';
+$mobileapp_language[78] = 'Invitar Por SMS';
+$mobileapp_language[79] = 'a';
+$mobileapp_language[80] = 'desatascar';
+$mobileapp_language[81] = 'Establecer estado';
+$mobileapp_language[82] = 'Establecer idioma';
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

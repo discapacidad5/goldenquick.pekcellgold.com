@@ -1,0 +1,250 @@
+/*
+ * It is advised not to edit the smartadmin_production.css
+ * as this will override any changes you make in the
+ * later versions of this theme.
+ *
+ * We advise that you use use this CSS to override
+ * SmartAdmin styles.
+ *
+ * Rename the stylesheet to whatever your liking so it will stay
+ * unique to you with each update of SmartAdmin.
+ */
+
+.link_dashboard
+{
+/*	-webkit-box-shadow: 0px 5px 10px #555;
+	-moz-box-shadow: 0px 5px 10px #555;
+	box-shadow: 0px 5px 10px #555;
+	-webkit-transition: all .6s ease-in-out;
+	-moz-transition: all .6s ease-in-out;
+	-o-transition: all .6s ease-in-out;
+	transition: all .6s ease-in-out;
+	-webkit-transform: rotate(0deg);
+	-moz-transform: rotate(0deg);
+	-o-transform: rotate(0deg);
+	-ms-transform: rotate(0deg);
+	transform: rotate(0deg); */
+	position: relative;
+border: 1px solid rgba(0, 0, 0, 0.2);
+border-radius: 3px;
+box-shadow: 0px 5px 10px #555;
+background-clip: padding-box;
+outline: 0px none;
+}
+.link_dashboard:hover
+{
+/*transform: rotateY(-15deg);*/
+transform: scale(1.05);
+
+/*	-webkit-box-shadow: 0px 5px 20px #555;
+	-moz-box-shadow: 0px 5px 20px #555;
+	box-shadow: 0px 5px 20px #555;
+	-webkit-transition: all .6s ease-in-out;
+	-moz-transition: all .6s ease-in-out;
+	-o-transition: all .6s ease-in-out;
+	transition: all .6s ease-in-out;
+	-webkit-transform: rotate(360deg);
+	-moz-transform: rotate(360deg);
+	-o-transform: rotate(360deg);
+	-ms-transform: rotate(360deg);
+	transform: rotate(360deg));*/
+
+
+}
+.link_dashboard > i:hover
+{
+	-webkit-transition: all .6s ease-in-out;
+	-moz-transition: all .6s ease-in-out;
+	-o-transition: all .6s ease-in-out;
+	transition: all .6s ease-in-out;
+	-webkit-transform: rotate(360deg)
+	-moz-transform: rotate(360deg);
+	-o-transform: rotate(360deg);
+	-ms-transform: rotate(360deg);
+	transform: rotate(360deg);
+}
+.link_dashboard > h5
+{
+	font-weight:500;
+}
+.boton_fuerte
+{
+	background-color:#3A1882;
+	border-color:#3A1882;
+}
+.boton_clarito
+{
+	background-color:#0E95E5;
+	border-color:#0E95E5;
+}
+.nombre-perfil
+{
+	margin-top:20%;
+	z-index:1;
+	text-align:left;
+	color:#000;
+	text-shadow:0px 0px 7px #FFF;
+	font-size:16px;
+}
+.imagen-perfil
+{
+	margin-top: 10%;
+	float: right;
+}
+.imagen-cabecera
+{
+	min-height: 100%;
+	padding-bottom:25%;
+
+}
+
+.video-bootbox div
+{
+	background-color:transparent;
+	color:#000;
+	width:100%;
+	text-align:center;
+	border:none;
+}
+.video-bootbox div div div
+{
+	border:none;
+}
+.video-bootbox button
+{
+	color:#fff;
+	opacity:1;
+}
+.dta-tble td
+{
+	text-align:center;
+
+}
+.video_img:hover
+{
+	opacity:.5;
+}
+.div_merca
+{
+	border:solid;
+	border-color:#ddd;
+	padding-top:1%;
+	background-color:#eee;
+}
+.div_merca:hover
+{
+	opacity:.8;
+}
+.div_info_merc
+{
+	text-align: center;
+	padding:1%;
+}
+.titulo_carrito
+{
+
+	color:#FFF;
+	opacity:1;
+}
+.titulo_carrito:hover
+{
+	color:#FFF;
+	opacity:.8;
+	font-size: 29px;
+}
+.well-noticia
+{
+	background: #FFF;
+	border-width: 3px;
+}
+.noticia-imagen
+{
+	max-width: 70%;
+	border-color:#777;
+	border-width: 3px;
+}
+.noticia-imagen:hover
+{
+	opacity:.9;
+}
+.parrafo-noticia
+{
+	text-align:justify;
+}
+.parrafo-noticia:hover
+{
+	background:#CCE;
+}
+.parrafo-noticia-2
+{
+	text-align:justify;
+}
+.parrafo-noticia-2:hover
+{
+	background:#EEE;
+}
+.ver-mas-calendario
+{
+	color: #FFF;
+	font-weight:bold;
+	text-decoration:none;
+}
+.ver-mas-calendario:hover
+{
+	color: #000;
+	text-decoration:none;
+}
+/*
+ * INDEX
+ *
+ * - HTML
+ * - BODY
+ * - CUSTOM STYLES
+ */
+ .smart-form .btn-success {
+    height: 2rem !important;
+    padding: 1rem !important;
+    background-color: #60A917 !important;
+    border-color: #60A917 !important;
+}
+.smart-form .btn{
+    height: 4rem !important;
+    padding: 1rem !important;
+    font-size: 1.4rem !important;
+}
+
+.smart-form footer .btn {
+  line-height: 1rem !important;
+  font-size: 2rem !important;
+}
+
+.primary{
+background: #2086BF none repeat scroll 0% 0%;
+color: #FFF;
+border-color: #2086BF;
+}
+
+.botones{
+  padding: 2rem;
+  margin: 2rem;
+}
+
+.contenidoBotones{
+  margin-bottom: 4rem;
+}
+
+.backHome{
+	background: #2086BF none repeat scroll 0% 0%;
+	color: #FFF;
+	border-color: #2086BF;
+	border-color: #1F496D;
+	font-size: 2.2rem;
+	height: 4rem !important;
+	padding: 1rem !important;
+	font-weight:bold;
+
+}
+.backHome:hover{
+	color: #FFF !important;
+	text-decoration: none;
+}
