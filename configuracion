@@ -2,14 +2,14 @@ PASOS PARA INICIAR OFICINA VIRTUAL
 1) Copiar repositorio a la carpeta www.
 2) Importar la base de datos.
 3) Configurar el archivo application/datases.php.
-4) Crear disco virtual oficina.pekcellgold.com.
+4) Crear host virtual goldenquick.pekcellgold.com
 5) Cambiar Dns en /etc/hosts.
 
-   127.0.0.1 oficina.pekcellgold.com
+   127.0.0.1 goldenquick.pekcellgold.com
 
 6) Agregar en /etc/apache2/apache2config.
 
-<Directory /var/www/oficina.pekcellgold.com>
+<Directory /var/www/goldenquick.pekcellgold.com>
 	Options Indexes FollowSymLinks
 	AllowOverride All
 	Allow from all
