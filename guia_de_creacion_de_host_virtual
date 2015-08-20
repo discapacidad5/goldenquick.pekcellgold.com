@@ -1,0 +1,37 @@
+* primer paso : copiar el archivo de configuración de hosts virtuales de apache
+
+sudo cp /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/goldenquick.pekcellgold.com.conf
+
+*segundo paso: abrir el archivo de configuración
+
+sudo gedit /etc/apache2/sites-available/goldenquick.pekcellgold.com.conf
+
+*tercer paso: borrar todo el contenido, pegar lo siguiente: 
+
+<VirtualHost *:80>
+    ServerAdmin goldenquick@pekcell.com
+    ServerName goldenquick.pekcellgold.com
+    DocumentRoot /var/www/goldenquick.pekcellgold.com/public_html
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+
+y guardar.
+
+*cuarto paso: habilitar el archivo de configuración
+
+sudo a2ensite goldenquick.pekcellgold.com.conf
+
+*quinto paso: reiniciar apache
+
+sudo service apache2 restart
+
+*sexto paso: abrir el archivo donde estan alojadas las direcciones ip y su dns
+
+sudo gedit /etc/hosts
+
+*septimo paso: agregar la siguiente linea debajo de la ultima dirección IP 127.0.0.1.
+
+127.0.0.1 	goldenquick.pekcellgold.com
+
+y guardar.

@@ -2,23 +2,13 @@ PASOS PARA INICIAR OFICINA VIRTUAL
 1) Copiar repositorio a la carpeta www.
 2) Importar la base de datos.
 3) Configurar el archivo application/datases.php.
-4) Crear host virtual goldenquick.pekcellgold.com
-5) Cambiar Dns en /etc/hosts.
+4) Crear host virtual goldenquick.pekcellgold.com (puede guiarse del archivo guia_de_creacion_de_host_virtual
+   alojado en el proyecto)
 
-   127.0.0.1 goldenquick.pekcellgold.com
+5) Modificar en el archivo de configuracion de apache
 
-6) Agregar en /etc/apache2/apache2config.
+	sudo gedit /etc/apache2/apache2.conf
 
-<Directory /var/www/goldenquick.pekcellgold.com>
-	Options Indexes FollowSymLinks
-	AllowOverride All
-	Allow from all
-	Require all granted
-</Directory>
-
-	sudo a2enmod rewrite
-	
-	y en el archivo de config(/etc/apache2/apache2.conf) de apache cambiar
 	<Directory /var/www/>
 		Options Indexes FollowSymLinks
 		AllowOverride All
@@ -26,13 +16,7 @@ PASOS PARA INICIAR OFICINA VIRTUAL
 		Require all granted
 	</Directory>
 
-agregar a la BD
-
-create view afiliados as
-select afiliar.id, user_profiles.user_id,afiliar.id_red, afiliar.debajo_de, afiliar.directo, afiliar.lado, user_profiles.nombre, user_profiles.apellido
-from afiliar, user_profiles where afiliar.id_afiliado = user_profiles.user_id; 
-
-7. Habilitar el uso de las etiquetas <? 
+6. Habilitar el uso de las etiquetas <? 
 	abrir el archivo de php.ini
 		sudo gedit /etc/php5/apache2/php.ini
 	buscar la linea
@@ -40,16 +24,13 @@ from afiliar, user_profiles where afiliar.id_afiliado = user_profiles.user_id;
 	reemplazar por:
 		short_open_tag = On
 
-8. Habilitar Administrador de Base de Datos
+7. Habilitar Administrador de Base de Datos
 En mysql 
-	GRANT ALL PRIVILEGES
-	ON *.*
-	TO 'user'@'%'
-	IDENTIFIED BY 'password';
+	GRANT ALL PRIVILEGES ON *.*	TO 'user'@'%' IDENTIFIED BY 'password';
 En terminal 
 	/etc/mysql/my.cnf
 	[Editar la linea]   
-	bind-address        = 192.168.0.116
+	bind-address        = 192.168.0.110
 
 En terminal 
 	stop mysql
