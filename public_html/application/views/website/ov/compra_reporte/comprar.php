@@ -270,7 +270,8 @@
 																				  <input name="buyerEmail"    type="hidden"  value="<?php echo $email[0]->email; ?>" >
 																				  <input name="responseUrl"    type="hidden"  value="http://www.oficina.pekcellgold.com/ov/compras/carrito_menu" >
 																				  <input name="confirmationUrl"    type="hidden"  value="http://www.oficina.pekcellgold.com/ov/compras/registrarVenta" >
-																				  <input type="submit" value="Pago PayuLatam"  class="btn btn-block btn-success" >
+																				  <input type="submit"  value="Enviar" id="enviar" class="hide">
+																				  <a onclick="enviar_payulatam('<?php echo $id_usuario; ?>', '<?php echo $items['id']; ?>', '<?php echo $items['qty'] ?>')" class="btn btn-block btn-success" >Pago PayuLatam</a>
 																				  <br><a class="btn btn-block btn-danger" onclick="consignacion(<?php echo $items['id']; ?>, <?php echo $items['qty']; ?>)"> Pago Por Banco</a>
 																			</form>	
 												                         </td>
@@ -404,31 +405,22 @@
 
 	})
 	
-
-		function enviar_payulatam(){
+		function enviar_payulatam(id_usuario, id, cantidad, dni){
 			//#form-payu
+			
 			$.ajax({
-				data: {info:JSON.stringify(datos)},
-				type: "get",
-				url: "muestra_mercancia",
+				data: { id_usuario : id_usuario, id_mercancia : id, cantidad : cantidad },
+				type: "post",
+				url: "GuardarVenta",
 				success: function(msg){
-			             
-			             bootbox.dialog({
-							message: msg,
-							title: "Descripcion",
-							className: "div_info_merc",
-							buttons: {
-								success: {
-									label: "Ok",
-									className: "btn-success",
-									callback: function() {
-										}
-								}
-							}
-						})
+					$("#extra").val(msg);
+					$("#enviar").click();
+					  
 			    }
 			});
 		}
+	
+		
 			function detalles(id,tipo)
 			{
 				var datos={'id':id,'tipo':tipo};

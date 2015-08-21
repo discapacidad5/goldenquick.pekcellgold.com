@@ -660,7 +660,7 @@ class perfil_red extends CI_Controller
 		$planes 		 = $this->model_planes->Planes();
 	
 		$image 			 = $this->model_perfil_red->get_images($id);
-		$red_forntales 	 = $this->model_tipo_red->ObtenerFrontales();
+		$red_forntales 	 = $this->model_tipo_red->ObtenerFrontalesRed($id_red);
 	
 	
 	

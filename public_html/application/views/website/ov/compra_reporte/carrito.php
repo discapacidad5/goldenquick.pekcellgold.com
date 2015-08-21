@@ -467,11 +467,13 @@
 			}
 			function show_todos(idTipoRed)
 			{
+				
 				$.ajax({
 					type: "get",
 					url: "show_todos",
 					data: { id: idTipoRed},
 					success:function(msg){
+						
 						$("#mercancias").html(msg);
 				
 					}

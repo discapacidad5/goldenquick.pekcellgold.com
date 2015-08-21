@@ -108,7 +108,7 @@
 													</a>
 												</div>
 												<div class="col-xs-10 col-sm-4 col-md-3 col-lg-2 link">	
-													<a href="/bo/capacidadRed/capacidad_de_la_red">
+													<a href="/bo/capacidadRed/index">
 														<div class="minh well well-sm txt-color-white text-center link_dashboard" style="background:<?=$style[0]->btn_2_color?>">
 															<i class="fa fa-sort-numeric-asc fa-3x"></i>
 															<h1>Frontalidad /Profundidad <br><br></h1>

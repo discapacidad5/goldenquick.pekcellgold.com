@@ -54,6 +54,12 @@ class Model_tipo_red extends CI_Model{
 		$q=$this->db->query('select frontal from tipo_red where id=1');
 		return $q->result();
 	}
+	
+	function ObtenerFrontalesRed($id)
+	{
+		$q=$this->db->query('select frontal from tipo_red where id='.$id);
+		return $q->result();
+	}
 				
 	function traerCapacidadRed()
 	{
@@ -61,12 +67,20 @@ class Model_tipo_red extends CI_Model{
 		
 		return $q->result();
 	}
-	function actualizarCapacidadRed($frontal, $profundidad){
+	
+	function getCapacidadRed($id)
+	{
+		$q = $this->db->query('select frontal,profundidad from tipo_red where id = '.$id);
+	
+		return $q->result();
+	}
+	function actualizarCapacidadRed($id_red, $frontal, $profundidad){
 		$datos = array(	'frontal' => $frontal,
 						'profundidad' => $profundidad);
 		
-		$this->db->update('tipo_red', $datos);
+		$this->db->update('tipo_red', $datos, array('id' => $id_red));
 	}
+	
 	function actualizar($id, $nombre, $descripcion, $profundidad, $frontal){
 		$datos = array(
 				'nombre' => $nombre,

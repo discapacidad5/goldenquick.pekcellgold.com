@@ -46,4 +46,5 @@ class CI_DB_sqlite_driver extends CI_DB {
 	 * database engines, so this string appears in each driver and is
 	 * used for the count_all() and count_all_results() functions.
 	 */
-	var $_count_string = "SELECT COUNT(*) AS
+	var $_count_string = "SELECT COUNT(*) AS";
+}

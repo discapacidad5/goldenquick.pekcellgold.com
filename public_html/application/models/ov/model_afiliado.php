@@ -202,8 +202,22 @@ class model_afiliado extends CI_Model{
 			);
 		
 		$this->db->insert("cross_rango_user",$dato_rango);
-		/*################### FIN DATO RANGO #########################*/
 		
+		/*################### FIN DATO RANGO #########################*/
+		$dato_rango=array(
+				"url"		=> "/template/img/empresario.jpg",
+				"nombre_completo"		=> "empresario.jpg",
+				"nombre"		=> "empresario",
+				"extencion"		=> "jpg",
+				"estatus"		=> "ACT"
+		);
+		$this->db->insert("cat_img",$dato_rango);
+		$id_img = mysql_insert_id();
+		$dato_rango=array(
+				"id_user"	=> $id,
+				"id_img"	=> $id_img
+		);
+		$this->db->insert("cross_img_user",$dato_rango);
 		return true;
 	}
 	
@@ -397,7 +411,20 @@ class model_afiliado extends CI_Model{
 		);
 		$this->db->insert("cross_rango_user",$dato_rango);
 		/*################### FIN DATO RANGO #########################*/
-		
+		$dato_rango=array(
+				"url"		=> "/template/img/empresario.jpg",
+				"nombre_completo"		=> "empresario.jpg",
+				"nombre"		=> "empresario",
+				"extencion"		=> "jpg",
+				"estatus"		=> "ACT"
+		);
+		$this->db->insert("cat_img",$dato_rango);
+		$id_img = mysql_insert_id();
+		$dato_rango=array(
+				"id_user"	=> $id,
+				"id_img"	=> $id_img
+		);
+		$this->db->insert("cross_img_user",$dato_rango);
 		return true;
 	}
 	

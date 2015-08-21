@@ -48,11 +48,11 @@
 $active_group = 'default';
 $active_record = TRUE;
 
-//$db['default']['hostname'] = '192.168.1.110';
-$db['default']['hostname'] = 'localhost';
+$db['default']['hostname'] = '192.168.1.110';
+//$db['default']['hostname'] = 'localhost';
 $db['default']['username'] = 'root';
 $db['default']['password'] = 'toor';
-$db['default']['database'] = 'suitePekcell';
+$db['default']['database'] = 'goldenQuick';
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';
 $db['default']['pconnect'] = TRUE;

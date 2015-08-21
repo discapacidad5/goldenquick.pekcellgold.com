@@ -1728,157 +1728,6 @@ function index()
 		</div>";
 	}
 	
-	function muestra_mercancia_web_personal()
-	{
-		$data=$_GET["info"];
-		$data=json_decode($data,true);
-		$id=$data['id'];
-		$imagenes=$this->modelo_compras->get_imagenes($id);
-		echo'<div class="row">';
-		echo '<div class="col-lg-6 col-md-6 col-xs-6 col-sm-6" style="text-align:center;">';
-		for($m=0;$m<sizeof($imagenes);$m++)
-		{
-		echo"
-		<p><img class='col-lg-12 col-md-12 col-xs-12 col-sm-12' src='".$imagenes[$m]->url."' style='width: 15rem ! important; height: 10rem ! important;'></p><br></br>";
-			}
-				echo '</div>';
-		switch($data['tipo'])
-		{
-					case 1:
-					$detalles=$this->modelo_compras->detalles_productos_red($id);
-					echo "	<div class='col-lg-6 col-md-6 col-xs-6 col-sm-6'>
-							<h3 class='text-primary'>".$detalles[0]->nombre."</h3>
-								";
-										if($detalles[0]->costo_publico)
-										{
-										echo"
-									<p class='font-sm'>Precio Publico: ".$detalles[0]->costo_publico."</p>";
-										}
-										/*if($detalles[0]->costo)
-										{
-									//		echo"<p class='font-sm'>Precio Afiliado: ".$detalles[0]->costo."</p>";
-										}
-										/*if($detalles[0]->puntos_comisionables)
-										 {
-										 echo"
-										 <p class='font-sm'>Puntos: ".$detalles[0]->puntos_comisionables."</p>";
-										 }*/
-										if($detalles[0]->descripcion)
-										{
-											echo"
-									<p> descripción: <br>".$detalles[0]->descripcion."</p>";
-										}
-	
-										break;
-					case 2:
-						$detalles=$this->modelo_compras->detalles_servicios_red($id);
-	
-						echo "	<div class='col-lg-6 col-md-6 col-xs-6 col-sm-6'>
-							<h3 class='text-primary'>".$detalles[0]->nombre."</h3>
-					";
-						if($detalles[0]->costo_publico)
-						{
-							echo"
-									<p class='font-sm'>Precio Publico: ".$detalles[0]->costo_publico."</p>";
-						}
-						/*if($detalles[0]->costo)
-						{
-							//echo"<p class='font-sm'>Precio Afiliado: ".$detalles[0]->costo."</p>";
-						}
-						/*if($detalles[0]->puntos_comisionables)
-						 {
-						 echo"
-						 <p class='font-sm'>Puntos: ".$detalles[0]->puntos_comisionables."</p>";
-						 }*/
-						if($detalles[0]->descripcion)
-						{
-							echo"
-									<p> descripción: <br>".$detalles[0]->descripcion."</p>";
-						}
-						break;
-					case 3:
-						$detalles=$this->modelo_compras->detalles_combinados($id);
-						$comb=$this->modelo_compras->comb_espec($id);
-						echo "	<div class='col-lg-6 col-md-6 col-xs-6 col-sm-6'>
-							<h3 class='text-primary'>".$comb[0]->nombre."</h3>
-				
-							<p class='font-sm'>".$comb[0]->descripcion."</p><br>";
-						foreach($detalles as $det)
-						{
-							echo "		<p class='font-sm'><strong>".$det["merc"]."(".$det["qty"].")</strong></p>";
-						}
-						break;
-					case 4:
-						$detalles=$this->modelo_compras->detalles_prom_prod($id);
-						echo "	<div class='col-lg-6 col-md-6 col-xs-6 col-sm-6'>
-							<h3 class='text-primary'>".$detalles[0]->nombre."</h3>
-				
-							<p class='font-sm'>".$detalles[0]->descripcion."</p></br>
-							<p class='font-sm'>".$detalles[0]->producto."</p>";
-						if($detalles[0]->peso)
-						{
-							echo"
-									<p class='font-sm'>Peso: ".$detalles[0]->peso."</p>";
-						}
-						if($detalles[0]->alto)
-						{
-							echo"
-									<p class='font-sm'>Alto: ".$detalles[0]->alto."</p>";
-						}
-						if($detalles[0]->ancho)
-						{
-							echo"
-									<p class='font-sm'>Ancho: ".$detalles[0]->ancho."</p>";
-						}
-						if($detalles[0]->profundidad)
-						{
-							echo"
-									<p class='font-sm'>Profundiad: ".$detalles[0]->profundidad."</p>";
-						}
-						if($detalles[0]->diametro)
-						{
-							echo"
-									<p class='font-sm'>Diametro: ".$detalles[0]->diametro."</p><br>";
-						}
-						break;
-					case 5:
-						$detalles=$this->modelo_compras->detalles_prom_serv($id);
-						echo "	<div class='col-lg-6 col-md-6 col-xs-6 col-sm-6'>
-							<h3 class='text-primary'>".$detalles[0]->nombre."</h3>
-				
-							<p class='font-sm'>".$detalles[0]->descripcion."</p></br>
-							<p class='font-sm'>".$detalles[0]->servicio."</p>";
-						if($detalles[0]->fecha_inicio)
-						{
-							echo"
-									<p class='font-sm'>Fecha Inicio: ".$detalles[0]->fecha_inicio."</p>";
-						}
-						if($detalles[0]->fecha_fin)
-						{
-							echo"
-									<p class='font-sm'>Fecha Fin: ".$detalles[0]->fecha_fin."</p><br>";
-						}
-						break;
-					case 6:
-						$detalles=$this->modelo_compras->detalles_prom_comb($id);
-						echo "	<div class='col-lg-6 col-md-6 col-xs-6 col-sm-6'>
-							<h3 class='text-primary'>".$detalles[0]->nombre."</h3>
-				
-							<p class='font-sm'>".$detalles[0]->descripcion."</p></br>
-							<p class='font-sm'><strong>".$detalles[0]->combinado."</strong></p></br>
-							<p class='font-sm'>".$detalles[0]->producto."</p><p>+</p>
-							<p class='font-sm'>".$detalles[0]->servicio."</p>";
-							
-						break;
-					default:
-						echo 'EL REGISTRO HA SIDO BORRADO';
-						break;
-				}
-				echo"
-			</div>
-		</div>";
-	}
-	
 	function add_carrito()
 	{
 		$carrito_item=0;
@@ -2182,274 +2031,6 @@ function index()
 			
 		}
 		
-	}
-
-	function add_merc_web_personal()
-	{
-		$data=$_GET["info"];
-		$data=json_decode($data,true);
-		$id=$data['id'];
-		$cantidad = -100;
-		if ($data['tipo'] == '1'){
-			$cantidad_disp=$this->modelo_compras->get_cantidad_almacen($id);
-			if (isset($cantidad_disp[0]->cantidad)){
-				$cantidad = $cantidad_disp[0]->cantidad;
-			}else{
-				$cantidad = 0;
-			}
-		}
-	
-		if ($cantidad < $data['qty']*1 && $cantidad >= 0){
-			echo "Error";
-		}
-		else
-		{
-			switch($data['tipo'])
-			{
-				case 1:
-					$detalles=$this->modelo_compras->detalles_productos($id);
-					$costo_ini=$detalles[0]->costo_publico;
-					$costo_total=$costo_ini;
-	
-					$add_cart = array(
-							'id'      => $id,
-							'qty'     => $data['qty'],
-							'price'   => $costo_total,
-							'name'    => $data['tipo'],
-							'options' => array(	'prom_id' => 0, 'time' => time())
-					);
-					break;
-	
-				case 2:
-					$detalles=$this->modelo_compras->detalles_servicios($id);
-					$costo_ini=$detalles[0]->costo_publico;
-					$costo_total=$costo_ini;
-	
-					$add_cart = array(
-							'id'      => $id,
-							'qty'     => $data['qty'],
-							'price'   => $costo_total,
-							'name'    => $data['tipo'],
-							'options' => array(	'prom_id' => 0, 'time' => time())
-					);
-					break;
-	
-				case 3:
-					$detalles=$this->modelo_compras->detalles_combinados($id);
-					$comb=$this->modelo_compras->comb_espec($id);
-					$costo_q=$this->modelo_compras->costo_merc($id);
-					$costo_ini=$costo_q[0]->costo_publico - (($costo_q[0]->costo_publico * $data['desc'])/100);
-					$costo_total=$costo_ini;
-	
-					$add_cart = array(
-							'id'      => $id,
-							'qty'     => $data['qty'],
-							'price'   => $costo_total,
-							'name'    => $data['tipo'],
-							'options' => array(	'prom_id' => 0, 'time' => time())
-					);
-					break;
-				case 4:
-					$detalles=$this->modelo_compras->detalles_prom_prod($id);
-					$costo_ini=$detalles[0]->costo*(1-($detalles[0]->prom_costo/100));
-					$costo_total=$costo_ini;
-	
-					$add_cart = array(
-							'id'      => $detalles[0]->id,
-							'qty'     => $data['qty'],
-							'price'   => $costo_total,
-							'name'    => $data['tipo'],
-							'options' => array(	'prom_id' => $detalles[0]->id_promocion, 'time' => time())
-					);
-					break;
-				case 5:
-					$detalles=$this->modelo_compras->detalles_prom_serv($id);
-					$costo_ini=$detalles[0]->costo*(1-($detalles[0]->prom_costo/100));
-					$costo_total=$costo_ini;
-	
-					$add_cart = array(
-							'id'      => $detalles[0]->id,
-							'qty'     => $data['qty'],
-							'price'   => $costo_total,
-							'name'    =>	$data['tipo'],
-							'options' => array(	'prom_id' => $detalles[0]->id_promocion, 'time' => time())
-					);
-					break;
-				case 6:
-					$detalles=$this->modelo_compras->detalles_prom_comb($id);
-					$costo_ini=$detalles[0]->costo*(1-($detalles[0]->prom_costo/100));
-					$costo_total=$costo_ini;
-	
-					$add_cart = array(
-							'id'      => $detalles[0]->id,
-							'qty'     => $data['qty'],
-							'price'   => $costo_total,
-							'name'    => $data['tipo'],
-							'options' => array(	'prom_id' => $detalles[0]->id_promocion, 'time' => time())
-					);
-					break;
-				default:
-					echo 'LA MERCANCIA YA NO ESTA DISPONIBLE';
-					break;
-			}
-			$this->cart->insert($add_cart);
-			echo ' <div class="navbar-header">
-					      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> <span class="sr-only"> Toggle navigation </span> <span class="icon-bar"> </span> <span class="icon-bar"> </span> <span class="icon-bar"> </span> </button>
-					      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-cart"> <i class="fa fa-shopping-cart colorWhite fa-2x"> </i> <span class="cartRespons colorWhite"> Cart (<?php echo $this->cart->total_items(); ?> ) </span> </button>
-					      <a style="color :#263569; margin-left:3rem;" class="navbar-brand titulo_carrito" href="/ov/dashboard" > <i class="fa fa-home"></i> Menu &nbsp;</a>
-					 
-					      <!-- this part for mobile -
-					      <div class="search-box pull-right hidden-lg hidden-md hidden-sm">
-					        <div class="input-group">
-					          <button class="btn btn-nobg getFullSearch" type="button"> <i class="fa fa-search"> </i> </button>
-					        </div>
-					        <!-- /input-group --
-					  
-					      </div> -->
-					    </div>';
-			echo '<div class="navbar-cart  collapse">
-					      <div class="cartMenu  hidden-lg col-xs-12 hidden-md hidden-sm">
-					        <div class="w100 miniCartTable scroll-pane">
-					          <table  >
-					            <tbody>';
-	
-			if($this->cart->contents())
-			{
-				foreach ($this->cart->contents() as $items)
-				{
-					$total=$items['qty']*$items['price'];
-					$imgn=$this->modelo_compras->get_img($items['id']);
-					switch($items['name'])
-					{
-						case 1:
-							$detalles=$this->modelo_compras->detalles_productos($items['id']);
-							break;
-						case 2:
-							$detalles=$this->modelo_compras->detalles_servicios($items['id']);
-							break;
-						case 3:
-							$detalles=$this->modelo_compras->comb_espec($items['id']);
-							break;
-						case 4:
-							$detalles=$this->modelo_compras->detalles_prom_prod($items['id']);
-							break;
-						case 5:
-							$detalles=$this->modelo_compras->detalles_prom_serv($items['id']);
-							break;
-						case 6:
-							$detalles=$this->modelo_compras->detalles_prom_comb($items['id']);
-							break;
-					}
-					echo '<tr class="miniCartProduct">
-											<td style="width:20%" class="miniCartProductThumb"><div> <a href="#"> <img src="'.$imgn[0]->url.'" alt="img"> </a> </div></td>
-											<td style="width:40%"><div class="miniCartDescription">
-						                        <h4> <a href="product-details.html"> '.$detalles[0]->nombre.'</a> </h4>
-						                        <div class="price"> <span>$ '.$items['price'].' </span> </div>
-						                      </div></td>
-						                    <td  style="width:10%" class="miniCartQuantity"><a > X '.$items['qty'].' </a></td>
-						                    <td  style="width:15%" class="miniCartSubtotal"><span>'.$total.'</span></td>
-						                    <td  style="width:5%" class="delete"><a onclick="quitar_producto(\''.$items['rowid'].'\')"> x </a></td>
-										</tr>';
-				}
-			}
-			echo   '</tbody>
-		          </table>
-		        </div>
-		        <!--/.miniCartTable-->
-	
-		        <div class="miniCartFooter  miniCartFooterInMobile text-right">
-		          <h3 class="text-right subtotal"> Subtotal: $'.$this->cart->total().' </h3>
-		          <a class="btn btn-sm btn-danger" onclick="ver_cart()"> <i class="fa fa-shopping-cart"> </i> VER CARRITO </a> <a class="btn btn-sm btn-primary" onclick="a_comprar()"> COMPRAR! </a> </div>
-		        <!--/.miniCartFooter-->
-	
-		      </div>';
-			echo '</div>
-		    <!--/.navbar-cart-->
-	
-		    <div class="navbar-collapse collapse">
-	
-		      <!--- this part will be hidden for mobile version -->
-		      <div class="nav navbar-nav navbar-right hidden-xs" >
-		        <div class="dropdown  cartMenu "> <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-		        	<i class="fa fa-shopping-cart"> </i>
-		        	<span class="cartRespons"> Cart ('.$this->cart->total_items().')
-		        	</span> <b class="caret"> </b> </a>
-		          	<div class="dropdown-menu col-lg-4 col-xs-12 col-md-4 ">
-		            	<div class="w100 miniCartTable scroll-pane">
-			              	<table>
-			                	<tbody>';
-			 
-			foreach ($this->cart->contents() as $items)
-			{
-				$total=$items['qty']*$items['price'];
-				$imgn=$this->modelo_compras->get_img($items['id']);
-				if(isset($imgn[0]->url))
-				{
-					$imagen=$imgn[0]->url;
-				}
-				else
-				{
-					$imagen="";
-				}
-				switch($items['name'])
-				{
-					case 1:
-						$detalles=$this->modelo_compras->detalles_productos($items['id']);
-						break;
-					case 2:
-						$detalles=$this->modelo_compras->detalles_servicios($items['id']);
-						break;
-					case 3:
-						$detalles=$this->modelo_compras->comb_espec($items['id']);
-						break;
-					case 4:
-						$detalles=$this->modelo_compras->detalles_prom_prod($items['id']);
-						break;
-					case 5:
-						$detalles=$this->modelo_compras->detalles_prom_serv($items['id']);
-						break;
-					case 6:
-						$detalles=$this->modelo_compras->detalles_prom_comb($items['id']);
-						break;
-				}
-				echo '<tr class="miniCartProduct">
-											<td style="width:20%" class="miniCartProductThumb"><div> <a href="#"> <img src="'.$imagen.'" alt="img"> </a> </div></td>
-											<td style="width:40%"><div class="miniCartDescription">
-						                        <h4> <a href="product-details.html"> '.$detalles[0]->nombre.'</a> </h4>
-						                        <div class="price"> <span> '.$items['price'].' </span> </div>
-						                      </div></td>
-						                    <td  style="width:10%" class="miniCartQuantity"><a > X '.$items['qty'].' </a></td>
-						                    <td  style="width:15%" class="miniCartSubtotal"><span>'.$total.'</span></td>
-						                    <td  style="width:5%" class="delete"><a onclick="quitar_producto(\''.$items['rowid'].'\')"> x </a></td>
-										</tr>';
-			}
-			 
-			echo '</tbody>
-			              </table>
-		            	</div>
-		            <!--/.miniCartTable-->
-	
-			            <div class="miniCartFooter text-right">
-			              <h3 class="text-right subtotal"> Subtotal: $ '.$this->cart->total().' </h3>
-			              <a class="btn btn-sm btn-danger" onclick="ver_cart()"> <i class="fa fa-shopping-cart"> </i> VER CARRITO </a> <a class="btn btn-sm btn-primary" onclick="a_comprar()"> COMPRAR! </a> </div>
-			            <!--/.miniCartFooter-->
-	
-		          		</div>
-		          <!--/.dropdown-menu-->
-		        	</div>
-		        <!--/.cartMenu-->
-	
-		        <div class="search-box">
-		          <div class="input-group">
-		            <button class="btn btn-nobg getFullSearch" type="button"> <i class="fa fa-search"> </i> </button>
-		          </div>
-		          <!-- /input-group -->
-	
-		        </div>
-		        <!--/.search-box --> ';
-				
-		}
-	
 	}
 	
 	function ver_carrito()
@@ -2875,6 +2456,10 @@ function index()
 		}
 		
 		$idRed=$_GET['id'];
+		
+		if(!$this->modelo_compras->ComprovarCompraProducto($id, $idRed)){
+			return 0;
+		}
 		$pais = $this->general->get_pais($id);
 		
 		$prod=$this->modelo_compras->get_productos_red($idRed, $pais[0]->pais);
@@ -3090,118 +2675,6 @@ function index()
 			';
 		}*/
 	}
-	
-	function show_todos_web_personal()
-	{
-		
-		$id = $_GET['id_afiliado'];
-		$idRed=$_GET['id'];
-		$pais = $this->general->get_pais($id);
-	
-		$prod=$this->modelo_compras->get_productos_red($idRed, $pais[0]->pais);
-		for($i=0;$i<sizeof($prod);$i++)
-		{
-			$imagen=$this->modelo_compras->get_img($prod[$i]->id);
-		if(isset($imagen[0]))
-		{
-		$prod[$i]->img=$imagen[0]->url;
-		}
-		else
-		{
-		$prod[$i]->img="";
-		}
-		}
-		$serv=$this->modelo_compras->get_servicios_red($idRed,$pais[0]->pais);
-		for($j=0;$j<sizeof($serv);$j++)
-		{
-		$imagen=$this->modelo_compras->get_img($serv[$j]->id);
-		if(isset($imagen[0]))
-		{
-		$serv[$j]->img=$imagen[0]->url;
-		}
-		else
-		{
-		$serv[$j]->img="";
-	}
-	}
-	$comb=$this->modelo_compras->get_combinados_red($idRed, $pais[0]->pais);
-	for($k=0;$k<sizeof($comb);$k++)
-	{
-	$imagen=$this->modelo_compras->get_img($comb[$k]->id);
-		if(isset($imagen[0]))
-		{
-		$comb[$k]->img=$imagen[0]->url;
-	}
-	else
-	{
-	$comb[$k]->img="";
-	}
-	}
-		for($productos=0;$productos<sizeof($prod);$productos++)
-		{
-			
-		echo '	<div class="item col-lg-3 col-md-3 col-sm-3 col-xs-3">
-		<div class="producto">
-		<a class="" data-toggle="tooltip" data-original-title="Add to Wishlist"  data-placement="left">
-										        	<i class=""></i>
-										        </a>
-									 
-									          		<div class="image"> <a onclick="detalles('.$prod[$productos]->id.',1)"><img src="'.$prod[$productos]->img.'" alt="img" class="img-responsive"></a>
-									              		<div class="promotion">   </div>
-									            	</div>
-				<div class="description">
-				<h4><a  onclick="detalles('.$prod[$productos]->id.',1)">'.$prod[$productos]->nombre.'</a></h4>
-     						              			</div>
-									            	<div class="price"> <span>$ '.$prod[$productos]->costo_publico.'</span></div>
-									            	<div class="action-control"> <a class="btn btn-primary" onclick="compra_prev('.$prod[$productos]->id.',1,0)"> <span class="add2cart"><i class="glyphicon glyphicon-shopping-cart"> </i> Añadir al carrito </span> </a> </div>
-									       </div>
-								       </div>
-								';
-	
-		}
-		for($servicios=0;$servicios<sizeof($serv);$servicios++)
-				{
-	
-										            			echo '	<div class="item col-lg-3 col-md-3 col-sm-3 col-xs-3">
-									    	<div class="producto">
-										    	<a class="" data-toggle="tooltip" data-original-title="Add to Wishlist"  data-placement="left">
-											    	<i class=""></i>
-										        </a>
-									 
-									          		<div class="image"> <a onclick="detalles('.$serv[$servicios]->id.',2)"><img src="'.$serv[$servicios]->img.'" alt="img" class="img-responsive"></a>
-									              		<div class="promotion">  </div>
-									            	</div>
-									            	<div class="description">
-											    			<h4><a onclick="detalles('.$serv[$servicios]->id.',2)">'.$serv[$servicios]->nombre.'</a></h4>
-									              	</div>
-									            	<div class="price"> <span>$ '.($serv[$servicios]->costo_publico).'</span> </div>
-									            	<div class="action-control"> <a class="btn btn-primary" onclick="compra_prev('.$serv[$servicios]->id.',2,0)"> <span class="add2cart"><i class="glyphicon glyphicon-shopping-cart"> </i> Añadir al carrito </span> </a> </div>
-									       </div>
-								       </div>
-								';
-		}
-		for($combinados=0;$combinados<sizeof($comb);$combinados++)
-											    			{
-		
-								echo '	<div class="item col-lg-3 col-md-3 col-sm-3 col-xs-3">
-									    	<div class="producto">
-										    	<a class="" data-toggle="tooltip" data-original-title="Add to Wishlist"  data-placement="left">
-											    	<i class=""></i>
-										        </a>
-									 
-									          		<div class="image"> <a onclick="detalles('.$comb[$combinados]->id.',3)"><img src="'.$comb[$combinados]->img.'" alt="img" class="img-responsive"></a>
-									              		<div class="promotion"> <a onclick="detalles('.$comb[$combinados]->id.',3)"> <span class="discount">'.$comb[$combinados]->descuento.'% DESCUENTO</span> </a></div>
-										              		</div>
-									            	<div class="description">
-									              		<h4><a onclick="detalles('.$comb[$combinados]->id.',3)">'.$comb[$combinados]->nombre.'</a></h4>
-										              				</div>
-									            	<div class="price"> <span>$ '.$comb[$combinados]->costo_publico.'</span> </div>
-									            	<div class="action-control"> <a class="btn btn-primary" onclick="compra_prev('.$comb[$combinados]->id.',3,'.$comb[$combinados]->descuento.')"> <span class="add2cart"><i class="glyphicon glyphicon-shopping-cart"> </i> Añadir al carrito </span> </a> </div>
-									       </div>
-								       </div>
-								';
-		}
-											    	}
 											    	
 	function buscar_servicio()
 	{
@@ -4228,51 +3701,6 @@ function index()
 		}
 	}
 	
-	function datos_comprador_web_personal()
-	{
-		$pais = $this->model_admin->get_pais_activo();
-		$this->template->set('username',$_POST['username']);
-		$this->template->set('pais', $pais);
-		$this->template->set_theme('desktop');
-		$this->template->build('website/ov/compra_reporte/datos_comprador_web_personal');
-	}
-	
-	function guardar_venta()
-	{
-		//guardar en BD datos de la venta, guiarme de consignacion
-		//$this
-		//https://stg.gateway.payulatam.com/ppp-web-gateway
-		$this->template->build('website/ov/compra_reporte/datos_comprador_web_personal');
-	}
-	
-	
-	/*function buscar_comprador_web_personal()
-	{
-		$dni_comprador = $_POST['dni'];
-		
-		echo "true";
-		if ($this->model_comprador->get_comprador($dni_comprador)){
-			echo "true";
-		}
-		else {
-			echo "false";
-		}
-			
-		//$this->template->build('website/ov/compra_reporte/datos_comprador_web_personal');
-	}*/
-	
-	function buscar_comprador_web_personal()
-	{
-		$dni_comprador = $_POST['dni'];
-		$use_username=$this->model_comprador->get_comprador($dni_comprador);
-		if($use_username){
-			echo "true";
-		}
-		else {
-			echo "false";
-		}
-	}
-	
 	function actualizar_comprador(){
 		      
 		if ($_POST['dni_comprador']==""){
@@ -4329,78 +3757,7 @@ function index()
 		}
 	}
 	
-	function comprar_web_personal()
-	{
-		$this->load->model('model_users');
-		
-		$username = $_GET['username'];
-		$dni = $_GET['dni'];
-		
-		$id = $this->model_users->get_id($username);
-		$id = $id[0]->id;
-		$usuario = $username;
-		$style=$this->general->get_style($id);
-		$this->template->set("style",$style);
-		$this->template->set("usuario",$usuario);
-		$this->template->set("dni",$dni);
-		
-		$direccion=$this->modelo_compras->get_direccion_comprador($id);
-		$pais=$this->modelo_compras->get_pais();
-		$info_compras=Array();
-		$producto=0;
-		if($this->cart->contents())
-		{
-			foreach ($this->cart->contents() as $items)
-			{
-				$imgn=$this->modelo_compras->get_img($items['id']);
-				if(isset($imgn[0]->url))
-				{
-					$imagen=$imgn[0]->url;
-				}
-				else
-				{
-					$imagen="";
-				}
-				switch($items['name'])
-				{
-					case 1:
-						$detalles=$this->modelo_compras->detalles_productos($items['id']);
-						break;
-					case 2:
-						$detalles=$this->modelo_compras->detalles_servicios($items['id']);
-						break;
-					case 3:
-						$detalles=$this->modelo_compras->comb_espec($items['id']);
-						break;
-					case 4:
-						$detalles=$this->modelo_compras->detalles_prom_prod($items['id']);
-						break;
-					case 5:
-						$detalles=$this->modelo_compras->detalles_prom_serv($items['id']);
-						break;
-					case 6:
-						$detalles=$this->modelo_compras->detalles_prom_comb($items['id']);
-						break;
-				}
-				$info_compras[$producto]=Array(
-						"imagen" => $imagen,
-						"nombre" => $detalles[0]->nombre
-				);
-				$producto++;
-			}
-		}
-		$data=array();
-		$data["direccion"]=$direccion;
-		$data["compras"]=$info_compras;
-		$data["pais"]=$pais;
-		$data['id'] = $id;
-		$this->template->set_theme('desktop');
-		$this->template->set_layout('website/main');
-		$this->template->set_partial('footer', 'website/ov/footer');
-		$this->template->build('website/ov/compra_reporte/comprar_web_personal',$data);
-	}
-	
-	function GuardarVentaWebPersonal(){
+	function GuardarVenta(){
 		
 		$this->load->model('model_users');
 		if(!isset($_POST['id_mercancia'])){
@@ -4409,8 +3766,7 @@ function index()
 		}
 		
 		$productos = $this->cart->contents();
-		$id = $this->model_users->get_id($_POST['usr']);
-		$id = $id[0]->id;
+		$id = $_POST['id_usuario'];
 		$datos_perfil = $this->modelo_compras->get_direccion_comprador($id);
 		
 		$id_mercancia = $_POST['id_mercancia'];
@@ -4421,7 +3777,7 @@ function index()
 		$email = $datos_perfil[0]->email;
 		$time = time().$id_mercancia;
 		
-		$costo = $cantidad * $this->modelo_compras->CostoPublicoMercancia($id_mercancia);
+		$costo = $cantidad * $this->modelo_compras->CostoMercancia($id_mercancia);
 		$firma = md5("consignacion~".$time."~".$costo."~USD");
 		$id_transacion = $id_mercancia.$cantidad.$costo.time();
 		$impuestos = $this->modelo_compras->ImpuestoMercancia($id_mercancia, $costo);
@@ -4454,7 +3810,6 @@ function index()
 		}
 		$this->cart->insert($producto_continua);
 		
-		$this->modelo_compras->RegsitrarVentaWebPersonal($id, $_POST['dni'], $venta);
 		echo $venta;
 	}
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -4465,6 +3820,7 @@ function index()
 		
 		$this->template->build('website/ov/compra_reporte/prueba');
 	}
+	/*
 	function registrarVenta(){
 		$estado = $_POST['state_pol'];
 		$productos = $this->cart->contents();
@@ -4534,8 +3890,8 @@ function index()
 			return "Regsitro Corecto";
 		}	
 	}
-	
-	function registrarVentaWebPersonal(){
+	*/
+	function registrarVenta(){
 		
 		$estado = $_POST['state_pol'];
 		$productos = $this->cart->contents();
@@ -4559,31 +3915,13 @@ function index()
 		//Con la venta consultar el id_mercancia, costo, costo_publico
 		
 		$mercancia = $this->modelo_compras->consultarMercancia($id_venta);
-	
+		
 		//$impuestos = $this->modelo_compras->ImpuestoMercancia($id_mercancia, $costo);
 	
 		if($estado == 4){
 				
-			/*$venta = $this->modelo_compras->registrar_venta($id_usuario, $costo, $metodo_pago, $id_transacion, $firma, $fecha, $impuestos);
-				
-			$this->modelo_compras->registrar_envio("1".$venta, $id_usuario, $direcion_envio , $telefono, $email);
-			$this->modelo_compras->registrar_factura($venta, $id_usuario, $direcion_envio , $telefono, $email);
-				
-			$puntos = $this->modelo_compras->registrar_venta_mercancia($id_mercancia, $venta, $cantidad);
-			$total = $this->modelo_compras->registrar_impuestos($id_mercancia);
-			$this->modelo_compras->registrar_movimiento($id_usuario, $id_mercancia, $cantidad, $costo+$impuestos, $total, $venta, $puntos);
-			$producto_continua = array();
-				
-			#$id_red_mercancia = $this->modelo_compras->ObtenerCategoriaMercancia($id_mercancia);
-				
-			//$red = $this->modelo_compras->Red($id_red_mercancia);
-				
-			//$valor_puntos = $puntos * $red[0]->valor_punto;*/
-			
-			$comision_venta_web_personal = ($mercancia[0]->costo_publico - $mercancia[0]->costo) * $mercancia[0]->cantidad;
-			$this->modelo_compras->insertar_comision_web_personal($id_usuario, $id_venta, $mercancia[0]->id_comprador, $comision_venta_web_personal);
 			$this->modelo_compras->actualizarVenta($id_venta,"2",$metodo_pago, $id_transaccion ,$firma );
-			$this->modelo_compras->actualizarcrossCompradorVenta($id_venta,"Pago");
+			
 			$valor_total_venta = $mercancia[0]->cantidad * $mercancia[0]->costo;
 			$id_categoria_mercancia = $this->modelo_compras->ObtenerCategoriaMercancia($mercancia[0]->id);
 			$costo_comision = $this->modelo_compras->ValorComision($id_categoria_mercancia);
