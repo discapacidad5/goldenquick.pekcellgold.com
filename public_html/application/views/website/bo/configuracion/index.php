@@ -37,7 +37,7 @@
 													<a href="/bo/configuracion/tipoRed">
 														<div class="minh well well-sm txt-color-white text-center link_dashboard" style="background:<?=$style[0]->btn_2_color?>">
 															<i class="fa fa-list fa-3x"></i>
-															<h1>Tipo Red</h1>
+															<h1>Redes</h1>
 														</div>
 													</a>
 												</div>
