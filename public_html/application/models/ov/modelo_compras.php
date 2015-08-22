@@ -100,12 +100,19 @@ where A.debajo_de = '.$id.' and A.id_afiliado = UP.user_id and A.id_afiliado = U
 		and b.estatus like "ACT" order by d.descripcion');
 		return $q->result();
 	}
-	function get_productos_red($idRed, $pais)
+	function get_productos_red($idRed, $pais, $id_usuario)
 	{
 		$q=$this->db->query('Select a.nombre, a.descripcion, b.id , b.costo, b.costo_publico, b.fecha_alta, d.descripcion grupo, d.id_grupo, a.nombre img,d.id_red 
 from producto a, mercancia b, cat_grupo_producto d
 where a.id=b.sku and d.id_grupo  = a.id_grupo and b.id_tipo_mercancia= 1 and b.estatus like "ACT" and b.pais = "'.$pais.'" and a.id_grupo='.$idRed.' order by d.descripcion');
-		return $q->result();
+		$produc =  $q->result();
+		$productos = array();
+		foreach ($produc as $producto){
+			if(!$this->ComprovarCompraMercancia($id_usuario, $producto->id)){
+				array_push($productos, $producto);
+			}
+		}
+		return $productos;
 	}
 	function get_grupo_prod()
 	{
@@ -156,12 +163,19 @@ where a.id=b.sku and d.id_grupo  = a.id_grupo and b.id_tipo_mercancia= 1 and b.e
 		return $q->result();
 	}
 	
-	function get_servicios_red($idRed,$idPais)
+	function get_servicios_red($idRed,$idPais, $id_usuario)
 	{
 		$q=$this->db->query('Select a.nombre, a.descripcion, b.id, b.costo, b.costo_publico, b.fecha_alta, a.nombre img,a.id_red 
 		from servicio a, mercancia b
 		where a.id=b.sku and b.id_tipo_mercancia= 2 and b.estatus like "ACT" and a.id_red= '.$idRed.' and b.pais = "'.$idPais.'"');
-		return $q->result();
+		$servicios_bd =  $q->result();
+		$servicios = array();
+		foreach ($servicios_bd as $servico){
+			if(!$this->ComprovarCompraMercancia($id_usuario, $servico->id)){
+				array_push($servicios, $servico);
+			}
+		}
+		return $servicios;
 	}
 	function get_servicio_espec($busqueda)
 	{
@@ -177,11 +191,18 @@ where a.id=b.sku and d.id_grupo  = a.id_grupo and b.id_tipo_mercancia= 1 and b.e
 		e where a.id=e.id_combinado and d.sku=a.id and d.estatus="ACT" and d.id_tipo_mercancia=3');
 		return $q->result();
 	}
-	function get_combinados_red($idRed, $pais)
+	function get_combinados_red($idRed, $pais, $id_usuario)
 	{
 		$q=$this->db->query('SELECT d.id, a.nombre, a.descripcion, a.descuento, a.id id_combinado, d.costo, d.costo_publico,d.fecha_alta, a.nombre img, a.id_red from combinado a, mercancia d, cross_combinado
 		e where a.id=e.id_combinado and d.sku=a.id and d.estatus="ACT" and d.id_tipo_mercancia=3 and a.id_red='.$idRed.' and d.pais = "'.$pais.'" group by (d.id)');
-		return $q->result();
+		$combinados_bd =  $q->result();
+		$combinados = array();
+		foreach ($combinados_bd as $combinado){
+			if(!$this->ComprovarCompraMercancia($id_usuario, $combinado->id)){
+				array_push($combinados, $combinado);
+			}
+		}
+		return $combinados;
 	}
 	function get_combinado_espec($busqueda)
 	{
@@ -1020,5 +1041,18 @@ where a.id=b.sku and d.id_grupo  = a.id_grupo and b.id_tipo_mercancia= 1 and b.e
 		}
 		
 		return true;
+	}
+	
+	function ComprovarCompraMercancia($id_usuario, $id_mercancia){
+		$mes = date("m");
+		$q = $this->db->query("select count(*) as cantidad 
+			from venta v, cross_venta_mercancia cvm, mercancia m
+			where v.id_venta = cvm.id_venta and cvm.id_mercancia = m.id and m.id = ".$id_mercancia."  and v.id_user = ".$id_usuario." and month(v.fecha)= ".$mes);
+		$mercancia = $q->result();
+		if($mercancia[0]->cantidad > 0){
+			return true;
+		}else{
+			return false;
+		}
 	}
 }

@@ -23,7 +23,7 @@ class compras extends CI_Controller
 		$this->load->model('bo/model_admin');
 		$this->load->model('model_user_webs_personales');
 		$this->load->model('model_comprador');
-		
+			
 		$this->load->model('ov/model_web_personal_reporte');
 	}
 	
@@ -2456,13 +2456,9 @@ function index()
 		}
 		
 		$idRed=$_GET['id'];
-		
-		if(!$this->modelo_compras->ComprovarCompraProducto($id, $idRed)){
-			return 0;
-		}
 		$pais = $this->general->get_pais($id);
 		
-		$prod=$this->modelo_compras->get_productos_red($idRed, $pais[0]->pais);
+		$prod=$this->modelo_compras->get_productos_red($idRed, $pais[0]->pais, $id);
 		for($i=0;$i<sizeof($prod);$i++)
 		{
 			$imagen=$this->modelo_compras->get_img($prod[$i]->id);
@@ -2475,7 +2471,7 @@ function index()
 				$prod[$i]->img="";
 			}
 		}
-		$serv=$this->modelo_compras->get_servicios_red($idRed,$pais[0]->pais);
+		$serv=$this->modelo_compras->get_servicios_red($idRed,$pais[0]->pais, $id);
 		for($j=0;$j<sizeof($serv);$j++)
 		{
 			$imagen=$this->modelo_compras->get_img($serv[$j]->id);
@@ -2488,7 +2484,7 @@ function index()
 				$serv[$j]->img="";
 			}
 		}
-		$comb=$this->modelo_compras->get_combinados_red($idRed, $pais[0]->pais);
+		$comb=$this->modelo_compras->get_combinados_red($idRed, $pais[0]->pais, $id);
 		for($k=0;$k<sizeof($comb);$k++)
 		{
 			$imagen=$this->modelo_compras->get_img($comb[$k]->id);
@@ -2500,7 +2496,8 @@ function index()
 			{
 				$comb[$k]->img="";
 			}
-		}/*
+		}
+		/*
 		$prom_p=$this->modelo_compras->get_promocion_prod();
 		for($n=0;$n<sizeof($prom_p);$n++)
 		{
@@ -3772,6 +3769,27 @@ function index()
 		$id_mercancia = $_POST['id_mercancia'];
 		$cantidad = $_POST['cantidad'];
 		
+		if($this->modelo_compras->ComprovarCompraMercancia($id, $id_mercancia)){
+			$producto_continua = array();
+		
+			foreach ($productos as $producto){
+				if($producto['id'] == $id_mercancia){
+					$this->cart->destroy();
+				}else{
+					$add_cart = array(
+							'id'      => $producto['id'],
+							'qty'     => $producto['qty'],
+							'price'   => $producto['price'],
+							'name'    => $producto['name'],
+							'options' => $producto['options']
+					);
+					$producto_continua[] = $add_cart;
+				}
+			}
+			echo "0";
+			$this->cart->insert($producto_continua);
+			return 0;
+		}
 		$direcion_envio = $datos_perfil[0]->calle." ".$datos_perfil[0]->colonia." ".$datos_perfil[0]->municipio." ".$datos_perfil[0]->estado;
 		$telefono = $this->modelo_compras->get_telefonos_comprador($id);
 		$email = $datos_perfil[0]->email;
@@ -3937,42 +3955,28 @@ function index()
 
 	
 	function CalcularComision2($id_afiliado, $id_venta, $id_categoria_mercancia,$config_comision, $capacidad_red ,$contador, $costo_mercancia){
-		$red2 = $this->model_afiliado->RedAfiliado ( $id_afiliado[0]->debajo_de, $capacidad_red[0]->id);
-		$estado = $this->model_user_profiles->EstadoUsuario ( $id_afiliado[0]->debajo_de );
 		
-		if(is_null($id_afiliado[0]->lado) || !isset($red2[0]->premium)){
-			return 0;
-		}
-		if ($red2[0]->premium == 2 && $id_afiliado[0]->lado >= $capacidad_red[0]->frontal) {
+		for($i = 0; $i < $capacidad_red[0]->profundidad; $i++){
 			
-			$valor_comision = 0;
-			$porcentaje = 0;
-			if( $contador <= $capacidad_red[0]->profundidad){
-				$porcentaje = $config_comision[$contador-1]->valor;
-				$valor_comision = ($config_comision[$contador-1]->valor * $costo_mercancia) / 100;
+			if(!isset($id_afiliado[0]->debajo_de)){
+				break;
+			}
+			$id_mercancia = $this->modelo_compras->consultarMercancia($id_venta);
+			echo $id_afiliado[0]->debajo_de;
+			
+			if(!$this->modelo_compras->ComprovarCompraMercancia($id_afiliado[0]->debajo_de, $id_mercancia[0]->id)){
+				$i = $i-1;
 			}else{
-				$porcentaje = $config_comision[$capacidad_red[0]->profundidad]->valor;
-				$valor_comision = ($config_comision[$capacidad_red[0]->profundidad]->valor * $costo_mercancia) / 100;
-			}
-			$this->DarComision($id_venta, $id_afiliado, $valor_comision, $porcentaje, $id_categoria_mercancia);
-			
-			$id_padre = $this->model_perfil_red->ConsultarIdPadre ( $id_afiliado[0]->debajo_de, $capacidad_red[0]->id);
-		
-			$valor_comision = ($config_comision[$capacidad_red[0]->profundidad + 1]->valor * $costo_mercancia) / 100;
-			$this->modelo_compras->CalcularComisionVenta ( $id_venta, $id_padre[0]->debajo_de, $config_comision[$capacidad_red[0]->profundidad + 1]->valor, $valor_comision, $id_categoria_mercancia);
-			return 0;
-		}else{
-			
-			if( $contador <= $capacidad_red[0]->profundidad){
 				
-				$valor_comision = (($config_comision[0]->valor-$config_comision[1]->valor) * $costo_mercancia) / 100;
-				$this->DarComision($id_venta, $id_afiliado, $valor_comision, ($config_comision[0]->valor-$config_comision[1]->valor), $id_categoria_mercancia);
+				$red2 = $this->model_afiliado->RedAfiliado( $id_afiliado[0]->debajo_de, $capacidad_red[0]->id);
+				$valor_comision = ($config_comision[$i]->valor * $costo_mercancia) / 100;
+				$this->DarComision($id_venta, $id_afiliado, $valor_comision, $config_comision[$i]->valor, $id_categoria_mercancia);					
 			}
+			
 			$id_padre = $this->model_perfil_red->ConsultarIdPadre( $id_afiliado[0]->debajo_de, $capacidad_red[0]->id );
-			
-			$this->CalcularComision2($id_padre, $id_venta, $id_categoria_mercancia,$config_comision, $capacidad_red ,$contador+1, $costo_mercancia);
-				
+			$id_afiliado = $id_padre;
 		}
+		//$this->CalcularComision2($id_padre, $id_venta, $id_categoria_mercancia,$config_comision, $capacidad_red ,$contador+1, $costo_mercancia);
 		return 0;
 	}
 	
@@ -4042,6 +4046,7 @@ function index()
 		{																		// logged in
 			redirect('/auth');
 		}
+		
 		$productos = $this->cart->contents();
 		$id = 2;
 		if($_POST['usr'] != 0){
@@ -4052,6 +4057,28 @@ function index()
 		$datos_perfil = $this->modelo_compras->get_direccion_comprador($id);
 		$id_mercancia = $_POST['id_mercancia'];
 		$cantidad = $_POST['cantidad'];
+		
+		if($this->modelo_compras->ComprovarCompraMercancia($id, $id_mercancia)){
+			$producto_continua = array();
+				
+			foreach ($productos as $producto){
+				if($producto['id'] == $id_mercancia){
+					$this->cart->destroy();
+				}else{
+					$add_cart = array(
+							'id'      => $producto['id'],
+							'qty'     => $producto['qty'],
+							'price'   => $producto['price'],
+							'name'    => $producto['name'],
+							'options' => $producto['options']
+					);
+					$producto_continua[] = $add_cart;
+				}
+			}
+			echo "Atencion!!! Ya has comprado esta mercancia en este mes";
+			$this->cart->insert($producto_continua);
+			return 0;
+		}
 		
 		$direcion_envio = $datos_perfil[0]->calle." ".$datos_perfil[0]->colonia." ".$datos_perfil[0]->municipio." ".$datos_perfil[0]->estado;
 		$telefono = $this->modelo_compras->get_telefonos_comprador($id);
@@ -4105,81 +4132,6 @@ function index()
 		}
 	}
 	
-
-	function RegistrarVentaConsignacionWebPersonal(){
-	
-		if(!isset($_POST['id_mercancia'])){
-			echo "La compra no puedo ser registrada";
-			return 0;
-		}
-		if (!$this->tank_auth->is_logged_in())
-		{																		// logged in
-			redirect('/auth');
-		}
-		$productos = $this->cart->contents();
-		$id = 2;
-		if($_POST['usr'] != 0){
-			$id = $_POST['usr'];
-		}else{
-			$id = $this->tank_auth->get_user_id();
-		}
-		$datos_perfil = $this->modelo_compras->get_direccion_comprador($_POST['id_afiliado']);
-		$id_mercancia = $_POST['id_mercancia'];
-		$cantidad = $_POST['cantidad'];
-	
-		$direcion_envio = $datos_perfil[0]->calle." ".$datos_perfil[0]->colonia." ".$datos_perfil[0]->municipio." ".$datos_perfil[0]->estado;
-		$telefono = $this->modelo_compras->get_telefonos_comprador($_POST['id_afiliado']);
-		$email = $datos_perfil[0]->email;
-		$time = time().$id_mercancia;
-	
-		$costo = $cantidad * $this->modelo_compras->CostoPublicoMercancia($id_mercancia);
-		$firma = md5("consignacion~".$time."~".$costo."~USD");
-		$id_transacion = $id_mercancia.$cantidad.$costo.time();
-		$impuestos = $this->modelo_compras->ImpuestoMercancia($id_mercancia, $costo);
-		$fecha = date("Y-m-d");
-	
-		$venta = $this->modelo_compras->registrar_ventaConsignacion($_POST['id_afiliado'], $costo , $id_transacion, $firma, $fecha, $impuestos);
-		
-		$this->modelo_compras->registrar_cross_comprador_ventaConsignacion($_POST['dni'], $venta, $_POST['id_afiliado']);
-	
-		$envio=$this->modelo_compras->registrar_envio($venta, $_POST['id_afiliado'], $direcion_envio , $telefono, $email);
-	
-		$this->modelo_compras->registrar_factura($venta, $_POST['id_afiliado'], $direcion_envio , $telefono, $email);
-	
-		$puntos = $this->modelo_compras->registrar_venta_mercancia($id_mercancia, $venta, $cantidad);
-		$total = $this->modelo_compras->registrar_impuestos($id_mercancia);
-		$this->modelo_compras->registrar_movimiento($_POST['id_afiliado'], $id_mercancia, $cantidad, $costo+$impuestos, $total, $venta, $puntos);
-		$producto_continua = array();
-	
-		foreach ($productos as $producto){
-			if($producto['id'] == $id_mercancia){
-				$this->cart->destroy();
-			}else{
-				$add_cart = array(
-						'id'      => $producto['id'],
-						'qty'     => $producto['qty'],
-						'price'   => $producto['price'],
-						'name'    => $producto['name'],
-						'options' => $producto['options']
-				);
-				$producto_continua[] = $add_cart;
-			}
-		}
-		$this->cart->insert($producto_continua);
-	
-		$banco = $this->modelo_compras->RegsitrarPagoBanco($_POST['id_afiliado'], $_POST['banco'], $venta, ($costo+$impuestos));
-		if(isset($banco[0]->id_banco)){
-			$respuesta = "<div class='alert alert-success alert-block'>
-								<a class='close' data-dismiss='alert' href='#'></a>
-								<p> Nombre de Banco: ".$banco[0]->descripcion.'</p>';
-			$respuesta = $respuesta."<p> Numero de Cuenta: ".$banco[0]->cuenta.'</p>';
-			$respuesta = $respuesta."<p> CLABE: ".$banco[0]->clave.'</p></div>';
-			$respuesta = $respuesta."<p class='text-danger'> Para terminar tu compra debes enviar un email con el comprobante de pago al vendedor(".$email.")</p></div>";
-			echo $respuesta;
-		}else{
-			echo "La venta se a registrado";
-		}
-	}
 	
 	function reporte_ventas_web_personal()
 	{
@@ -4253,9 +4205,6 @@ function index()
 	
 	}
 	function Reporte_Excel_WP(){
-		
-	
-		
 		if (!$this->tank_auth->is_logged_in())
 		{																		// logged in
 		redirect('/auth');

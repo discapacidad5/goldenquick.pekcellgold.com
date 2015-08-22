@@ -413,9 +413,25 @@
 				type: "post",
 				url: "GuardarVenta",
 				success: function(msg){
-					$("#extra").val(msg);
-					$("#enviar").click();
-					  
+					if(msg == '0'){
+						 bootbox.dialog({
+								message: "Ya has comprado esta mercancia en este mes",
+								title: "Atención !!!",
+								className: "div_info_merc",
+								buttons: {
+									success: {
+										label: "Ok",
+										className: "btn-success",
+										callback: function() {
+											window.location.href='/ov/compras/carrito_menu'
+											}
+									}
+								}
+							})
+					}else{
+						$("#extra").val(msg);
+						$("#enviar").click();
+					}
 			    }
 			});
 		}
