@@ -51,7 +51,7 @@
                                         </header>
                     
                                         <!-- widget div-->
-                                        <div>
+                                        <div style="height: 35rem; overflow: auto;">
                     
                                              <!-- widget edit box -->
                                              <div class="jarviswidget-editbox">
@@ -67,7 +67,7 @@
 													
 													
 														<div class="row">
-															<div class="tree1">
+															<div class="tree1" style="width: 10000rem;">
 																<ul>
 																	<li>
 																		<a style="background: url('<?=$img_perfil?>'); background-size: cover; background-position: center;" href="#"><div class="nombre">Tú</div></a>
