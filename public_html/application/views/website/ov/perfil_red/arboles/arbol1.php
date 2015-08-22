@@ -22,7 +22,7 @@
 			<!-- NEW WIDGET START -->
 			<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
-				<!-- Widget ID (each widget will need unique ID)-->
+ 			<!-- Widget ID (each widget will need unique ID)-->
 				<div class="jarviswidget jarviswidget-color-purity" id="wid-id-0"
 					data-widget-editbutton="false" data-widget-colorbutton="false">
 					<!-- widget options:
@@ -46,7 +46,7 @@
 					</header>
 
 					<!-- widget div-->
-					<div>
+					<div style="height: 35rem; overflow: auto;">
 
 						<!-- widget edit box -->
 						<div class="jarviswidget-editbox">
@@ -59,9 +59,9 @@
 						<div class="widget-body">
 							
 							<div id="myTabContent1" class="tab-content padding-10">
-								<div class="tab-pane fade in active">
+								<div class="tab-pane fade in active" >
 									<div class="row">
-										<div class="tree1">
+										<div class="tree1" style="width: 10000rem;">
 											<ul>
 												<li>
 												<a style="background: url('<?=$img_perfil?>'); background-size: cover; background-position: center;" href="#"><div
