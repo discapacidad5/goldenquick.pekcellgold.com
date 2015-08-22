@@ -398,7 +398,7 @@ class usuarios extends CI_Controller
 		}
 		
 		$image 			 = $this->model_perfil_red->get_images($id);
-		$red_forntales 	 = $this->model_tipo_red->ObtenerFrontales();
+		$red_forntales 	 = $this->model_tipo_red->ObtenerFrontalesRed($id_red);
 		
 		
 		
@@ -474,10 +474,8 @@ class usuarios extends CI_Controller
 		}
 	
 		$image 			 = $this->model_perfil_red->get_images($id);
-		$red_forntales 	 = $this->model_tipo_red->ObtenerFrontales();
-	
-	
-	
+		$red_forntales 	 = $this->model_tipo_red->ObtenerFrontalesRed($id_red);
+
 		$img_perfil="/template/img/empresario.jpg";
 		foreach ($image as $img)
 		{
@@ -550,9 +548,7 @@ class usuarios extends CI_Controller
 		}
 	
 		$image 			 = $this->model_perfil_red->get_images($id);
-		$red_forntales 	 = $this->model_tipo_red->ObtenerFrontales();
-	
-	
+		$red_forntales 	 = $this->model_tipo_red->ObtenerFrontalesRed($id_red);
 	
 		$img_perfil="/template/img/empresario.jpg";
 		foreach ($image as $img)

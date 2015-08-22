@@ -92,12 +92,12 @@ class red extends CI_Controller
 			redirect('/auth');
 		}
 		
-		$frontales 	 = $this->model_tipo_red->ObtenerFrontales();
-		$frontales = $frontales[0]->frontal;
+		
 		$id            = $this->tank_auth->get_user_id();
 		$style         = $this->general->get_style($id);
 		$id_red        = $_GET['id'];
-		
+		$frontales 	 = $this->model_tipo_red->ObtenerFrontalesRed($id_red);
+		$frontales = $frontales[0]->frontal;
 		$afiliados     = $this->model_perfil_red->get_afiliados($id_red, $id);
 		
 		//$afiliadostree = $this->model_perfil_red->get_afiliados($id_red, $id);
@@ -133,11 +133,12 @@ class red extends CI_Controller
 		{																		// logged in
 			redirect('/auth');
 		}
-		$frontales 	 = $this->model_tipo_red->ObtenerFrontales();
-		$frontales = $frontales[0]->frontal;
+		
 		$id            = $this->tank_auth->get_user_id();
 		$style         = $this->general->get_style($id);
 		$id_red        = $_GET['id'];
+		$frontales 	 = $this->model_tipo_red->ObtenerFrontalesRed($id_red);
+		$frontales = $frontales[0]->frontal;
 		//$afiliados     = $this->model_perfil_red->get_afiliados_($id_red, $id);
 		$afiliadostree = $this->model_perfil_red->get_afiliados($id_red, $id);
 	
@@ -171,11 +172,12 @@ class red extends CI_Controller
 		{																		// logged in
 			redirect('/auth');
 		}
-		$frontales 	 = $this->model_tipo_red->ObtenerFrontales();
-		$frontales = $frontales[0]->frontal;
+		
 		$id            = $this->tank_auth->get_user_id();
 		$style         = $this->general->get_style($id);
 		$id_red        = $_GET['id'];
+		$frontales 	 = $this->model_tipo_red->ObtenerFrontalesRed($id_red);
+		$frontales = $frontales[0]->frontal;
 		//$afiliados     = $this->model_perfil_red->get_afiliados_($id_red, $id);
 		$afiliadostree = $this->model_perfil_red->get_afiliados($id_red, $id);
 	

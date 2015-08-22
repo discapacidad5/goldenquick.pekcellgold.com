@@ -1253,11 +1253,20 @@ BONO AUTOCOMPRA
 	
 	function actualizar_comisiones(){
 		if(isset($_POST['categoria'])){
-			$id_categoria = $_POST['categoria'];
-			
-			$this->model_admin->new_Config_Comision($id_categoria);
-			$correcto = "La configuracion ha sido actualizada.";
-			$this->session->set_flashdata('correcto', $correcto);
+			$porcentaje = 0;
+			foreach ($_POST['configuracion'] as $valor){
+				$porcentaje = $porcentaje + $valor;
+			}
+			if($porcentaje > 100){
+				$error = "La Configuracion no se ha podido actualizar, debido a que la suma de los porcentajes es mayor al 100%";
+				$this->session->set_flashdata('error', $error);
+			}else{
+				$id_categoria = $_POST['categoria'];
+				
+				$this->model_admin->new_Config_Comision($id_categoria);
+				$correcto = "La configuracion ha sido actualizada.";
+				$this->session->set_flashdata('correcto', $correcto);
+			}
 		}else{
 			$error = "La Configuracion no se ha podido actualizar";
 			$this->session->set_flashdata('error', $error);

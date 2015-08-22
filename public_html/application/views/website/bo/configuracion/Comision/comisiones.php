@@ -61,15 +61,15 @@
 												
 											if ($config <= $i){ ?>
 												<label class="label"> Nivel <?php echo $i+1; ?> <p class="text-danger">(Nuevo)</p></label>
-												<label class="input"> 
-													<i class="icon-prepend fa fa-usd"></i>
-													<input name="configuracion[]" type="number" value="0" required step="any">
+												<label class="input-group"> 
+													<input name="configuracion[]" type="number" value="0" required class="form-control" step="any">
+													<span class="input-group-addon">%</span>
 												</label>
 											<?php } else{ ?>
 												<label class="label">Nivel <?php echo $configuracion[$i]->profundidad; ?></label> 
-												<label class="input"> 
-													<i class="icon-prepend fa fa-usd"></i>
-													<input name="configuracion[]" type="number" value="<?php echo $configuracion[$i]->valor; ?>" required>
+												<label class="input-group"> 
+													<input name="configuracion[]" type="number" value="<?php echo $configuracion[$i]->valor; ?>" class="form-control" required>
+													<span class="input-group-addon">%</span>
 												</label>
 											<?php  }
 												}
@@ -85,9 +85,9 @@
 											<section>
 											<?php for ($i = 1; $i < $profundidad ; $i++) { ?>
 												<label class="label">Nivel <?php echo $i; ?> <p class="text-danger">(Nuevo)</p></label> 
-													<label class="input"> 
-														<i class="icon-prepend fa fa-usd"></i>
-														<input name="configuracion[]" type="number"  required>
+													<label class="input-group"> 
+														<span class="input-group-addon">%</span>
+														<input name="configuracion[]" type="number" class="form-control" required>
 												</label>
 											<?php } ?>
 											</section>
