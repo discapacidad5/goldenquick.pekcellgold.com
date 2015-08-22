@@ -477,10 +477,10 @@
 												if($permiso){
 												?>
 												<div class="col-sm-12">
-													<a href="cgeneral/web_personal">
+													<a href="http://www.oficina.pekcellgold.com/auth/login">
 														<div class="well well-sm txt-color-white text-center link_dashboard" style="background:<?=$style[0]->btn_2_color?>">
 															<i class="fa fa-globe fa-3x"></i>
-															<h5>Web Personal</h5>
+															<h5>Golden line</h5>
 														</div>
 													</a>
 												</div>
