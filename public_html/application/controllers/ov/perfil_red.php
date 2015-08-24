@@ -2,6 +2,7 @@
 
 class perfil_red extends CI_Controller
 {
+	private $afiliados = array();
 	function __construct()
 	{
 		parent::__construct();
@@ -17,6 +18,8 @@ class perfil_red extends CI_Controller
 		$this->load->model('model_tipo_red');
 		$this->load->model('model_planes');
 		$this->load->model('ov/modelo_dashboard');
+		$this->load->model('ov/modelo_compras');
+		$this->load->model('modelo_premios');
 	}
 
 	function index()
@@ -517,6 +520,79 @@ class perfil_red extends CI_Controller
 		$this->template->set_partial('footer', 'website/ov/footer');
 		$this->template->build('website/ov/perfil_red/afiliar');
 	}
+	/*
+	function preOrden($id){
+	
+		$datos = $this->modelo_compras->traer_afiliados($id);
+	
+		foreach ($datos as $dato){
+			if ($dato!=NULL){
+				array_push($this->afiliados, $dato);
+				$this->preOrden($dato->id_afiliado);
+			}
+		}
+	}
+	
+	
+	private function VerificarCompras($id_afiliado,$id_red){
+		$afiliados_nivel1=$this->modelo_compras->traer_afiliados_red($id_afiliado, $id_red);
+		$contador=0;
+		$id_categoria = $this->modelo_compras->ConsultarIdCategoriaMercancia($id_red);
+		foreach ($afiliados_nivel1 as $afiliado){
+			$afiliados_nivel2 = $this->modelo_compras->traer_afiliados_red($afiliado->id_afiliado, $id_red);
+			foreach ($afiliados_nivel2 as $afiliado2){
+				var_dump($afiliado2);
+				echo "<br>";
+				if($this->modelo_compras->ComprovarCompraProducto($afiliado2->id_afiliado, $id_categoria)){
+					$contador = $contador + 1;
+				}
+			} 
+		}
+		
+		return $contador;
+	}*/
+	
+	private function VerificarCompras($id_afiliado,$id_red,$nivel){
+		$afiliados =$this->modelo_compras->traer_afiliados_red($id_afiliado, $id_red);
+		$id_categoria = $this->modelo_compras->ConsultarIdCategoriaMercancia($id_red);
+		$contador = 0;
+		foreach ($afiliados as $afiliado2){
+			if($this->modelo_compras->ComprovarCompraProducto($afiliado2->id_afiliado, $id_categoria)){
+				$contador = 1;
+			}
+			if(isset($this->afiliados[$nivel])){
+				$this->afiliados[$nivel] =  $contador + $this->afiliados[$nivel];
+			}else{
+				$this->afiliados[$nivel] = $contador;
+			}
+			$this->VerificarCompras($afiliado2->id_afiliado, $id_red,$nivel+1);
+		}
+		
+	}
+	
+	private function DeterminarPremio($id_afiliado,$id_red){
+		$this->VerificarCompras($id_afiliado, $id_red, 0);
+		//var_dump($this->afiliados); exit;
+		$premio = 0;
+		$premios = $this->modelo_premios->getPremiosCondicion($id_red);
+		$i=1;
+		foreach ($this->afiliados as $nivel){
+			foreach ($premios as $premio_cond){
+				if($premio_cond->nivel == $i && $nivel == $premio_cond->num_afiliados){
+					$premio = $premio_cond->id;
+				}
+			}
+			$i++;
+		}
+		if($premio != 0){
+			$this->RegistrarPremioAfiliado($id_afiliado,$premio);
+		}
+		return $premio;
+	}
+	
+	private function RegistrarPremioAfiliado($id_afiliado, $id_premio){
+		$this->modelo_premios->InsertarPremioAfiliado($id_premio,$id_afiliado);
+	}
 	
 	function afiliar_frontal(){
 		if (!$this->tank_auth->is_logged_in())
@@ -542,7 +618,7 @@ class perfil_red extends CI_Controller
 		$afiliados       = $this->model_perfil_red->get_afiliados($id_red, $id);
 		//$planes 		 = $this->model_planes->Planes();
 		$image 			 = $this->model_perfil_red->get_images($id);
-		$red_forntales 	 = $this->model_tipo_red->ObtenerFrontales();
+		$red_forntales 	 = $this->model_tipo_red->ObtenerFrontalesRed($id_red);
 		
 		$img_perfil="/template/img/empresario.jpg";
 		foreach ($image as $img)
@@ -554,6 +630,9 @@ class perfil_red extends CI_Controller
 			}
 		}
 		
+		$premio = $this->DeterminarPremio($id, $id_red);
+		
+		$this->template->set("premio",$premio);
 		$this->template->set("id",$id);
 		$this->template->set("style",$style);
 		$this->template->set("contar",count($afiliados));
@@ -611,7 +690,10 @@ class perfil_red extends CI_Controller
 				$img_perfil=$img->url;
 			}
 		}
-	
+		
+		$premio = $this->DeterminarPremio($id, $id_red);
+		
+		$this->template->set("premio",$premio);
 		$this->template->set("id",$id);
 		$this->template->set("style",$style);
 		$this->template->set("contar",count($afiliados));
@@ -673,6 +755,9 @@ class perfil_red extends CI_Controller
 				$img_perfil=$img->url;
 			}
 		}
+		$premio = $this->DeterminarPremio($id, $id_red);
+		
+		$this->template->set("premio",$premio);
 		$this->template->set("id",$id);
 		$this->template->set("style",$style);
 		$this->template->set("afiliados",$afiliados);
@@ -734,6 +819,9 @@ class perfil_red extends CI_Controller
 				$img_perfil=$img->url;
 			}
 		}
+		$premio = $this->DeterminarPremio($id, $id_red);
+		
+		$this->template->set("premio",$premio);
 		$this->template->set("id",$id);
 		$this->template->set("style",$style);
 		$this->template->set("afiliados",$afiliados);
@@ -1407,5 +1495,12 @@ class perfil_red extends CI_Controller
 		$this->template->set("red",$red);
 		$this->template->set("valor_retencion",$valor_retencion);
 		$this->template->build('website/ov/perfil_red/fases');
+	}
+	
+	function ConsultarPremio(){
+		$id = $_POST['id'];
+		$premio = $this->modelo_premios->ConsultarPremio($id);
+		$this->template->set("premio",$premio);
+		$this->template->build('website/ov/perfil_red/premio');
 	}
 }

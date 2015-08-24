@@ -29,6 +29,14 @@ where A.debajo_de = '.$id.' and A.id_afiliado = UP.user_id and A.id_afiliado = U
 		return $q->result();
 	}
 	
+	function traer_afiliados_red($id, $id_red)
+	{
+		$q=$this->db->query('select A.id_afiliado, concat(UP.nombre," ",UP.apellido) nombre, U.email
+from afiliar A, user_profiles UP, users U
+where A.debajo_de = '.$id.' and A.id_afiliado = UP.user_id and A.id_afiliado = U.id and A.id_red = '.$id_red.' group by(U.id)');
+		return $q->result();
+	}
+	
 	function traer_afiliados_estadisticas($id)
 	{
 		$q=$this->db->query('select UP.id_sexo, 
@@ -1003,6 +1011,12 @@ where a.id=b.sku and d.id_grupo  = a.id_grupo and b.id_tipo_mercancia= 1 and b.e
 		
 		$this->db->update('cross_comprador_venta', $datos, array( 'id_venta ' => $id_venta) );
 	}
+	function ConsultarIdCategoriaMercancia($id_red){
+		$q = $this->db->query("select id_grupo from cat_grupo_producto where id_red = ".$id_red);
+		$red = $q->result();
+		return $red[0]->id_grupo;
+	}
+	
 	function ConsultarIdRedMercancia($id_categoria_mercancia){
 		$q = $this->db->query("select id_red from cat_grupo_producto where id_grupo = ".$id_categoria_mercancia);
 		$red = $q->result();
@@ -1020,27 +1034,27 @@ where a.id=b.sku and d.id_grupo  = a.id_grupo and b.id_tipo_mercancia= 1 and b.e
 	function ComprovarCompraProducto($id_usuario, $id_categoria){
 		$mes = date("m");
 		$q = $this->db->query("select count(*) as cantidad from venta v, cross_venta_mercancia cvm, servicio s, mercancia m 
-		where v.id_venta = cvm.id_venta and cvm.id_mercancia = m.id and m.sku = s.id and m.id_tipo_mercancia = 2 and s.id_red = ".$id_categoria." and v.id_user = ".$id_usuario." and month(v.fecha)= ".$mes);
+		where v.id_venta = cvm.id_venta and cvm.id_mercancia = m.id and m.sku = s.id and m.id_tipo_mercancia = 2 and s.id_red = ".$id_categoria." and v.id_user = ".$id_usuario);
 		$servicio = $q->result();
 		if($servicio[0]->cantidad > 0){
-			return false;
+			return true;
 		}
 		
 		$q = $this->db->query("select count(*) as cantidad from venta v, cross_venta_mercancia cvm, producto s, mercancia m
-		where v.id_venta = cvm.id_venta and cvm.id_mercancia = m.id and m.sku = s.id and m.id_tipo_mercancia = 1 and s.id_grupo = ".$id_categoria." and v.id_user = ".$id_usuario." and month(v.fecha)= ".$mes);
+		where v.id_venta = cvm.id_venta and cvm.id_mercancia = m.id and m.sku = s.id and m.id_tipo_mercancia = 1 and s.id_grupo = ".$id_categoria." and v.id_user = ".$id_usuario);
 		$producto = $q->result();
 		if($producto[0]->cantidad > 0){
-			return false;
+			return true;
 		}
 		
 		$q = $this->db->query("select count(*) as cantidad from venta v, cross_venta_mercancia cvm, combinado s, mercancia m
-		where v.id_venta = cvm.id_venta and cvm.id_mercancia = m.id and m.sku = s.id and m.id_tipo_mercancia = 3 and s.id_red = ".$id_categoria." and v.id_user = ".$id_usuario." and month(v.fecha)= ".$mes);
+		where v.id_venta = cvm.id_venta and cvm.id_mercancia = m.id and m.sku = s.id and m.id_tipo_mercancia = 3 and s.id_red = ".$id_categoria." and v.id_user = ".$id_usuario);
 		$producto = $q->result();
 		if($producto[0]->cantidad > 0){
-			return false;
+			return true;
 		}
 		
-		return true;
+		return false;
 	}
 	
 	function ComprovarCompraMercancia($id_usuario, $id_mercancia){

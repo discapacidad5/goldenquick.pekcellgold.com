@@ -34,7 +34,6 @@
 										<select id="tipo-reporte">
 											<option value="0" selected="" disabled="">Tipo de reporte</option>
 											<option value="1">Afliados nuevos</option>
-											<option value="4">Ventas web personal</option>
 											<option value="5">Compras por Banco</option>
 											<option value="6">Ver consecutivo de mi red</option>
 											<option value="7">Ver compras de mi red</option>
@@ -632,81 +631,7 @@
 						
 						
 						break;
-					case '4':
-						$("#nuevos-afiliados").show();
-						var inicio=$("#startdate").val();
-						var fin=$("#finishdate").val();
-						if (inicio == '' || fin == ''){
-							alert('Introduzca las fechas para buscar');
-							return 0;
-						}
-						$.ajax({
-					         type: "post",
-					         data: {inicio : inicio, fin : fin},
-					         url: "reporte_ventas_web_personal",
-							success: function( msg )
-							{
-								$("#reporte_div").html(msg);
-								var responsiveHelper_dt_basic = undefined;
-								var responsiveHelper_datatable_fixed_column = undefined;
-								var responsiveHelper_datatable_col_reorder = undefined;
-								var responsiveHelper_datatable_tabletools = undefined;
-								
-								var breakpointDefinition = {
-									tablet : 1024,
-									phone : 480
-								};
-											var otable = $('#datatable_fixed_column1').DataTable({
-						    	//"bFilter": false,
-						    	//"bInfo": false,
-						    	//"bLengthChange": false
-						    	//"bAutoWidth": false,
-						    	//"bPaginate": false,
-						    	//"bStateSave": true // saves sort state using localStorage
-								"sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6 hidden-xs'f><'col-sm-6 col-xs-12 hidden-xs'<'toolbar'>>r>"+
-										"t"+
-										"<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
-								"autoWidth" : true,
-								"preDrawCallback" : function() {
-									// Initialize the responsive datatables helper once.
-									if (!responsiveHelper_datatable_fixed_column) {
-										responsiveHelper_datatable_fixed_column = new ResponsiveDatatablesHelper($('#datatable_fixed_column1'), breakpointDefinition);
-									}
-								},
-								"rowCallback" : function(nRow) {
-									responsiveHelper_datatable_fixed_column.createExpandIcon(nRow);
-								},
-								"drawCallback" : function(oSettings) {
-									responsiveHelper_datatable_fixed_column.respond();
-								}		
-								
-							    });
-						    	$("div.toolbar").html('<div class="text-right"><img src="" alt="" style="width: 111px; margin-top: 3px; margin-right: 10px;"></div>');
-						    	   
-							    // Apply the filter
-							    $("#datatable_fixed_column1 thead th input[type=text]").on( 'keyup change', function () {
-							    	
-							        otable
-							            .column( $(this).parent().index()+':visible' )
-							            .search( this.value )
-							            .draw();
-							            
-							    } );
-							    $("#well-print-usr").hide();
-								$("#row-print-usr").hide();
-								$("#well-print-red").hide();
-								$("#row-print-red").hide();
-								$("#well-print-web").hide();
-								$("#row-print-web").hide();
-							    $("#well-print-af").show();
-								$("#row-print-af").show();
-						    // custom toolbar
-								 var obj = '<a onclick="Reporte_Exel_web_personal()" class="btn btn-success col-xs-12 col-lg-12 col-md-12 col-sm-12 " ><i class="fa fa-print"></i>&nbsp;Crear excel</a>'
-										$("#remplazar").html(obj);
-										$("#row-print-red").show();
-							}
-						});
-						break;
+					
 					case '5':{
 						$("#well-print-usr").hide();
 						$("#row-print-usr").hide();
@@ -1021,17 +946,6 @@
 			window.location="/ov/compras/reporte_pagos_banco_excel?inicio="+inicio+"&&fin="+fin
 		}
 
-		function Reporte_Exel_web_personal(){
-			var inicio=$("#startdate").val();
-			var fin=$("#finishdate").val();
-			if (inicio == '' || fin == ''){
-				alert('Introduzca las fechas para buscar');
-				return 0;
-			}
-			window.location="/ov/compras/Reporte_Excel_WP?inicio="+inicio+"&&fin="+fin
-
-			}
-		
 		function reporte_excel(){
 			
 			var inicio=$("#startdate").val();

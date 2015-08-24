@@ -33,7 +33,7 @@
                   <div class="contenidoBotones">
 										<div class="row">
 											<div class="col-sm-12 link">
-											<div class="col-sm-1 link">
+											<div class="col-sm-5 link">
 											</div>
 											<!--  	<div class="col-sm-3 link">
 													<a href="/bo/usuarios">

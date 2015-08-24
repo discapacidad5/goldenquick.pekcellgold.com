@@ -408,6 +408,29 @@ function codpos_red()
 	}
 }
 
+function InformarPremio(premio){
+	$.ajax({
+		type: "POST",
+		url: "ConsultarPremio",
+		data: {id: premio},
+	})
+	.done(function( msg )
+	{
+		bootbox.dialog({
+			message: msg,
+			title: "Felicitaciones",
+			buttons: {
+				success: {
+				label: "Cerrar!",
+				className: "btn btn-danger",
+				callback: function() {
+					//location.href="";
+					}
+				}
+			}
+		});
+	});
+}
 </script>
 <!-- MAIN CONTENT -->
 <div id="content">
@@ -467,8 +490,14 @@ function codpos_red()
 							<div id="myTabContent1" class="tab-content padding-10">
 								<div class="tab-pane fade in active" id="s1">
 									<div id="uno" class="row fuelux">
-									
-									<? 
+									<?php if($premio != 0){ ?>
+										<script type="text/javascript">
+										window.onload = function() {
+										    InformarPremio(<?php echo $premio; ?>);
+										    // Puedes agregar mas eventos que se ejecutaran al cargar la pagina
+										}
+										</script>
+									<?php }
 									if( $contar < $red_frontales[0]->frontal || $premium == '2' )  {   ?>
 	                                    
 	                                	
