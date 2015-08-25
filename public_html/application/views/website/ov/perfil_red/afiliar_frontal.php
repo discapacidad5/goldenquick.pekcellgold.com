@@ -533,7 +533,8 @@ function InformarPremio(premio){
 								<div class="tab-pane fade in active" id="s1">
 									<div id="uno" class="row fuelux">
 									
-									<?php if($premio != 0){ ?>
+									<?php if($premio != 0){
+											if ($estadoPremio == 'Pendiente'){ ?>
 										<script type="text/javascript">
 										window.onload = function() {
 										    InformarPremio(<?php echo $premio; ?>);
@@ -541,6 +542,7 @@ function InformarPremio(premio){
 										}
 										</script>
 									<?php }
+									}
 									if( $contar < $red_frontales[0]->frontal || $premium == '2' )  {   ?>
 	                                    
 	                                	<div id="myWizard" class="wizard">
@@ -926,7 +928,7 @@ function InformarPremio(premio){
 												</div>
 												<div class="step-pane" id="step4">
 													<div class="well">
--														<p>El pago se realizara despues en la enttrega de su primer pedido</p>
+-														<p>El pago se realizara despues en la entrega de su primer pedido</p>
 -													</div>
 												</div>
 				
@@ -935,7 +937,7 @@ function InformarPremio(premio){
 										<?} else {?>
 										<h1>   Solo puedes tener <?php echo $red_frontales[0]->frontal ?>, pero puedes afiliar en red</h1>
 											<?php }?>
-											<a href="/ov/perfil_red/afiliar_red?id=<?php echo $_GET['id'];?>">Sigueme para seguir afiliando en tu red.</a>
+											<a href="/ov/perfil_red/afiliar_red?id=<?php echo $_GET['id'];?>">Sígueme para seguir afiliando en tu red.</a>
 									</div>
 								</div>
 								

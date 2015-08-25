@@ -69,6 +69,12 @@ where p.id = cpu.id_premio and cpu.id_afiliado = u.id and u.id = up.user_id and 
 		return $premio;
 	}
 	
+	function verEstadoPremio($id){
+		$query = $this->db->query('select * from cross_premio_usuario where id_afiliado='.$id);
+		$query = $query->result();
+		return $query[0]->estado;
+	}
+	
 	function cambiarEstadoPremio($id, $fecha, $estado){
 		$datos = array(
 				'estado' =>  $estado,

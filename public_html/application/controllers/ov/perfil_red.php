@@ -553,6 +553,7 @@ class perfil_red extends CI_Controller
 	}*/
 	
 	private function VerificarCompras($id_afiliado,$id_red,$nivel){
+		
 		$afiliados =$this->modelo_compras->traer_afiliados_red($id_afiliado, $id_red);
 		$id_categoria = $this->modelo_compras->ConsultarIdCategoriaMercancia($id_red);
 		$contador = 0;
@@ -628,10 +629,13 @@ class perfil_red extends CI_Controller
 				$img_perfil=$img->url;
 			}
 		}
-		
+		$estadoPremio = "";
 		$premio = $this->DeterminarPremio($id, $id_red);
+		$estadoPremio = $this->modelo_premios->verEstadoPremio($id);
+		
 		
 		$this->template->set("premio",$premio);
+		$this->template->set("estadoPremio",$estadoPremio);
 		$this->template->set("id",$id);
 		$this->template->set("style",$style);
 		$this->template->set("contar",count($afiliados));
@@ -691,8 +695,11 @@ class perfil_red extends CI_Controller
 		}
 		
 		$premio = $this->DeterminarPremio($id, $id_red);
+		$estadoPremio = $this->modelo_premios->verEstadoPremio($id);
+		
 		
 		$this->template->set("premio",$premio);
+		$this->template->set("estadoPremio",$estadoPremio);
 		$this->template->set("id",$id);
 		$this->template->set("style",$style);
 		$this->template->set("contar",count($afiliados));
@@ -755,8 +762,11 @@ class perfil_red extends CI_Controller
 			}
 		}
 		$premio = $this->DeterminarPremio($id, $id_red);
+		$estadoPremio = $this->modelo_premios->verEstadoPremio($id);
+		
 		
 		$this->template->set("premio",$premio);
+		$this->template->set("estadoPremio",$estadoPremio);
 		$this->template->set("id",$id);
 		$this->template->set("style",$style);
 		$this->template->set("afiliados",$afiliados);
@@ -819,8 +829,11 @@ class perfil_red extends CI_Controller
 			}
 		}
 		$premio = $this->DeterminarPremio($id, $id_red);
+		$estadoPremio = $this->modelo_premios->verEstadoPremio($id);
+		
 		
 		$this->template->set("premio",$premio);
+		$this->template->set("estadoPremio",$estadoPremio);
 		$this->template->set("id",$id);
 		$this->template->set("style",$style);
 		$this->template->set("afiliados",$afiliados);
