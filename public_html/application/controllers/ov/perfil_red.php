@@ -88,7 +88,7 @@ class perfil_red extends CI_Controller
 	function get_red_afiliar()
 	{
 		$id_red=$_POST['red'];
-		$frontales 	 = $this->model_tipo_red->ObtenerFrontales();
+		$frontales 	 = $this->model_tipo_red->ObtenerFrontalesRed($id_red);
 		$frontales= $frontales[0]->frontal;
 		$afiliados = $this->model_perfil_red->get_afiliados($id_red, $_POST['id']);
 		
@@ -172,7 +172,7 @@ class perfil_red extends CI_Controller
 	function subtree()
 	{
 		$id_red=$_POST['red'];
-		$frontales 	 = $this->model_tipo_red->ObtenerFrontales();
+		$frontales 	 = $this->model_tipo_red->ObtenerFrontalesRed($id_red);
 		$frontales= $frontales[0]->frontal;
 		$afiliados = $this->model_perfil_red->get_afiliados($id_red, $_POST['id']);
 		
@@ -258,7 +258,7 @@ class perfil_red extends CI_Controller
 	function subtree2()
 	{
 		$id_red=$_POST['red'];
-		$frontales 	 = $this->model_tipo_red->ObtenerFrontales();
+		$frontales 	 = $this->model_tipo_red->ObtenerFrontalesRed($id_red);
 		$frontales= $frontales[0]->frontal;
 		$afiliados = $this->model_perfil_red->get_afiliados($id_red, $_POST['id']);
 	
@@ -616,7 +616,6 @@ class perfil_red extends CI_Controller
 		$red 			 = $this->model_afiliado->RedAfiliado($id, $id_red);
 		$premium         = $red[0]->premium;
 		$afiliados       = $this->model_perfil_red->get_afiliados($id_red, $id);
-		//$planes 		 = $this->model_planes->Planes();
 		$image 			 = $this->model_perfil_red->get_images($id);
 		$red_forntales 	 = $this->model_tipo_red->ObtenerFrontalesRed($id_red);
 		
@@ -675,11 +674,11 @@ class perfil_red extends CI_Controller
 		$ocupacion       = $this->model_perfil_red->get_ocupacion();
 		$tiempo_dedicado = $this->model_perfil_red->get_tiempo_dedicado();
 		$red 			 = $this->model_afiliado->RedAfiliado($id, $id_red);
-		$premium         = $red[0]->premium;
+		//$premium         = $red[0]->premium;
 		$afiliados       = $this->model_perfil_red->get_afiliados($id_red, $id);
 		//$planes 		 = $this->model_planes->Planes();
 		$image 			 = $this->model_perfil_red->get_images($id);
-		$red_forntales 	 = $this->model_tipo_red->ObtenerFrontales();
+		$red_forntales 	 = $this->model_tipo_red->ObtenerFrontalesRed($id_red);
 	
 		$img_perfil="/template/img/empresario.jpg";
 		foreach ($image as $img)
@@ -706,7 +705,7 @@ class perfil_red extends CI_Controller
 		$this->template->set("tiempo_dedicado",$tiempo_dedicado);
 		$this->template->set("img_perfil",$img_perfil);
 		$this->template->set("red_frontales",$red_forntales);
-		$this->template->set("premium",$premium);
+		//$this->template->set("premium",$premium);
 		//$this->template->set("valor_retencion",$valor_retencion);
 	
 		$this->template->set_theme('desktop');
@@ -806,7 +805,7 @@ class perfil_red extends CI_Controller
 		$planes 		 = $this->model_planes->Planes();
 	
 		$image 			 = $this->model_perfil_red->get_images($id);
-		$red_forntales 	 = $this->model_tipo_red->ObtenerFrontales();
+		$red_forntales 	 = $this->model_tipo_red->ObtenerFrontalesRed($id_red);
 	
 	
 	

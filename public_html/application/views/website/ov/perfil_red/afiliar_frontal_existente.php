@@ -498,7 +498,7 @@ function InformarPremio(premio){
 										}
 										</script>
 									<?php }
-									if( $contar < $red_frontales[0]->frontal || $premium == '2' )  {   ?>
+									if( $contar < $red_frontales[0]->frontal)  {   ?>
 	                                    
 	                                	
 										<div class="step-content">
@@ -537,16 +537,10 @@ function InformarPremio(premio){
 												</div>
 											</div>
 										</div>
-										<?}	elseif($premium == '0'){ ?> 
-										<script type="text/javascript">
-										window.onload = function() {
-										    SelecionarFase();
-										    // Puedes agregar mas eventos que se ejecutaran al cargar la pagina
-										}
-										</script>
-										<a id="fases" onclick="SelecionarFase()">Mas informacion</a>
-										<?php } else {?>
-										<h1>   Solo puedes tener <?php echo $red_frontales[0]->frontal ?>, pero puedes afiliar en red"</h1>
+										<?}
+										 else {?>
+										<h1>   Solo puedes tener <?php echo $red_frontales[0]->frontal ?>, pero puedes afiliar en red</h1>
+										<a href="/ov/perfil_red/afiliar_red_existente?id=<?php echo $_GET['id'];?>">Sigueme para seguir afiliando en tu red.</a>
 											<?php }?>
 									</div>
 								</div>
