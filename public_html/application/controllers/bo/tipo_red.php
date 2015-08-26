@@ -38,8 +38,6 @@ class tipo_red extends CI_Controller{
         $this->template->set_partial('header', 'website/ov/header');
         $this->template->set_partial('footer', 'website/ov/footer');
 		$this->template->build('website/bo/TipoRed/nuevo');	
-
-
 	}
 
 	public function modificar_red(){
@@ -83,7 +81,8 @@ class tipo_red extends CI_Controller{
 			$capacidadRed = $this->model_tipo_red->traerCapacidadRed();
 			
 			$this->model_tipo_red->insertar($_POST['nombre'],$_POST['descripcion'],$capacidadRed[0]->frontal,$capacidadRed[0]->profundidad);
-			redirect("/bo/tipo_red/mostrar_redes");
+			$this->session->set_flashdata('error', 'Recuerda que debes crear una categoria por defecto para tu red.');
+			redirect("/bo/categorias/nueva_categoria");
 	}
 
 	public function mostrar_redes()

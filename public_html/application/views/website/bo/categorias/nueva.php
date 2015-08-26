@@ -18,7 +18,7 @@
 									×
 								</button>
 								<i class="fa-fw fa fa-check"></i>
-								<strong>Error </strong> '.$this->session->flashdata('error').'
+								<strong>Alerta </strong> '.$this->session->flashdata('error').'
 			</div>'; 
 	}
 ?>	
