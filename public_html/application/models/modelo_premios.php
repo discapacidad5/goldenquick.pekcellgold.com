@@ -24,6 +24,9 @@ class modelo_premios extends CI_Model
 					'id_afiliado' => $id_afiliado
 			);
 			$this->db->insert("cross_premio_usuario", $datos);
+			return true;
+		}else{
+			return false;
 		}
 	}
 	
@@ -82,5 +85,12 @@ where p.id = cpu.id_premio and cpu.id_afiliado = u.id and u.id = up.user_id and 
 				'estado' =>  $estado
 		);
 		$this->db->update('cross_premio_usuario',$datos,array('id' => $id));
+	}
+	
+	function datosEmail($id_afiliado, $id_premio){
+		$q = $this->db->query('select cpu.id, concat(up.nombre," ",up.apellido) as nombre, u.email, p.nombre as premio, p.descripcion, p.imagen
+from premios p, users u, user_profiles up, cross_premio_usuario cpu
+where p.id = cpu.id_premio and cpu.id_afiliado = u.id and u.id = up.user_id and u.id = '.$id_afiliado.' and p.id = '.$id_premio.' group by cpu.id');
+		return $q->result();
 	}
 }

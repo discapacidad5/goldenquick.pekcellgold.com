@@ -76,13 +76,6 @@
 																<td>$ 0</td>
 															</tr>';
 														}
-													} if($comision_web_personal){ ?>  
-														<tr class="success">
-															<td>Comision Web Personal</td>
-															<td>$ <?php echo number_format($comision_web_personal,2);?></td>
-														</tr>
-													<?php 
-														$total += $comision_web_personal;
 													} ?>
 													<tr class="success">
 														<td><h4><b>TOTAL</b></h4></td>

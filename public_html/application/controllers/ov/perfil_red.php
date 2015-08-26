@@ -520,37 +520,6 @@ class perfil_red extends CI_Controller
 		$this->template->set_partial('footer', 'website/ov/footer');
 		$this->template->build('website/ov/perfil_red/afiliar');
 	}
-	/*
-	function preOrden($id){
-	
-		$datos = $this->modelo_compras->traer_afiliados($id);
-	
-		foreach ($datos as $dato){
-			if ($dato!=NULL){
-				array_push($this->afiliados, $dato);
-				$this->preOrden($dato->id_afiliado);
-			}
-		}
-	}
-	
-	
-	private function VerificarCompras($id_afiliado,$id_red){
-		$afiliados_nivel1=$this->modelo_compras->traer_afiliados_red($id_afiliado, $id_red);
-		$contador=0;
-		$id_categoria = $this->modelo_compras->ConsultarIdCategoriaMercancia($id_red);
-		foreach ($afiliados_nivel1 as $afiliado){
-			$afiliados_nivel2 = $this->modelo_compras->traer_afiliados_red($afiliado->id_afiliado, $id_red);
-			foreach ($afiliados_nivel2 as $afiliado2){
-				var_dump($afiliado2);
-				echo "<br>";
-				if($this->modelo_compras->ComprovarCompraProducto($afiliado2->id_afiliado, $id_categoria)){
-					$contador = $contador + 1;
-				}
-			} 
-		}
-		
-		return $contador;
-	}*/
 	
 	private function VerificarCompras($id_afiliado,$id_red,$nivel){
 		$afiliados =$this->modelo_compras->traer_afiliados_red($id_afiliado, $id_red);
@@ -585,13 +554,36 @@ class perfil_red extends CI_Controller
 			$i++;
 		}
 		if($premio != 0){
-			$this->RegistrarPremioAfiliado($id_afiliado,$premio);
+			$enviar = $this->RegistrarPremioAfiliado($id_afiliado,$premio);
+			if($enviar){
+				$this->EnviarMail($id_afiliado, $premio);
+			}
 		}
 		return $premio;
 	}
 	
+	private function EnviarMail($id_afiliado, $id_premio){
+		
+		$datos = $this->modelo_premios->datosEmail($id_afiliado, $id_premio);
+		$premio['usuario'] = $datos[0]->nombre;
+		$premio['premio'] = $datos[0]->premio;
+		$premio['descripcion'] = $datos[0]->descripcion;
+		$premio['imagen'] = $datos[0]->imagen;
+		//$this->load->view('email/Premio', $premio);
+		
+		$this->load->library('email');
+		$this->email->from($this->config->item('webmaster_email', 'tank_auth'), $this->config->item('website_name', 'tank_auth'));
+		$this->email->reply_to($this->config->item('webmaster_email', 'tank_auth'), $this->config->item('website_name', 'tank_auth'));
+		$this->email->to($datos[0]->email);
+		$this->email->subject('Confirmacion de pago por Banco');
+		$this->email->message($this->load->view('email/Premio', $premio, TRUE));
+		//$this->email->set_alt_message($this->load->view('email/activate-txt', $data, TRUE));
+		$this->email->send();
+		
+	}
+	
 	private function RegistrarPremioAfiliado($id_afiliado, $id_premio){
-		$this->modelo_premios->InsertarPremioAfiliado($id_premio,$id_afiliado);
+		return $this->modelo_premios->InsertarPremioAfiliado($id_premio,$id_afiliado);
 	}
 	
 	function afiliar_frontal(){
