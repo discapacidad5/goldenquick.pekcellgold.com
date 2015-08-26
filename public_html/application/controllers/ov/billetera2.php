@@ -251,7 +251,7 @@ class billetera2 extends CI_Controller
 		$this->template->set("style",$style);
 		$this->template->set("usuario",$usuario);
 		$this->template->set("comision_web_personal",$comision_web_personal[0]->valor);
-		$this->template->set("comisiones",$comisiones+$comision_web_personal[0]->valor);
+		$this->template->set("comisiones",$comisiones);
 		$this->template->set("ganancias",$ganancias);
 		$this->template->set("cobro",$cobro);
 		$this->template->set("cobroPendientes",$cobroPendientes);
