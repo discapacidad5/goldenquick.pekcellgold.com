@@ -490,7 +490,8 @@ function InformarPremio(premio){
 							<div id="myTabContent1" class="tab-content padding-10">
 								<div class="tab-pane fade in active" id="s1">
 									<div id="uno" class="row fuelux">
-									<?php if($premio != 0){ ?>
+									<?php if($premio != 0){
+											if ($estadoPremio == 'Pendiente'){ ?>
 										<script type="text/javascript">
 										window.onload = function() {
 										    InformarPremio(<?php echo $premio; ?>);
@@ -498,6 +499,7 @@ function InformarPremio(premio){
 										}
 										</script>
 									<?php }
+									}
 									if( $contar < $red_frontales[0]->frontal)  {   ?>
 	                                    
 	                                	
@@ -540,7 +542,7 @@ function InformarPremio(premio){
 										<?}
 										 else {?>
 										<h1>   Solo puedes tener <?php echo $red_frontales[0]->frontal ?>, pero puedes afiliar en red</h1>
-										<a href="/ov/perfil_red/afiliar_red_existente?id=<?php echo $_GET['id'];?>">Sigueme para seguir afiliando en tu red.</a>
+										<a href="/ov/perfil_red/afiliar_red_existente?id=<?php echo $_GET['id'];?>">Sígueme para seguir afiliando en tu red.</a>
 											<?php }?>
 									</div>
 								</div>
