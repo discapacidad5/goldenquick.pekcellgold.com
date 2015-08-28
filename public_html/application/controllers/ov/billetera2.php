@@ -230,14 +230,14 @@ class billetera2 extends CI_Controller
 			redirect('/auth');
 		}
 	
-		$id=$this->tank_auth->get_user_id();
+		$id = $this->tank_auth->get_user_id();
 	
 	
-		$usuario=$this->general->get_username($id);
-		$style=$this->general->get_style($id);
+		$usuario = $this->general->get_username($id);
+		$style = $this->general->get_style($id);
 	
 		$redes = $this->model_tipo_red->listarTodos();
-		$ganancias=array();
+		$ganancias = array();
 		foreach ($redes as $red){
 			array_push($ganancias,$this->modelo_billetera->get_comisiones($id,$red->id));
 		}

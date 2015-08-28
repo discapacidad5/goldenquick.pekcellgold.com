@@ -443,13 +443,16 @@ where(a.id_pais=b.Code)");
 			$this->db->where('id', $_POST['id_merc']);
 			$this->db->update('mercancia', $dato_mercancia); 
 			$this->db->query("delete from cross_merc_impuesto where id_mercancia=".$_POST['id_merc']);
-			foreach($_POST['id_impuesto'] as $impuesto)
-			{
-				$dato_impuesto=array(
-					"id_mercancia"	=> $_POST['id_merc'],
-					"id_impuesto"	=> $impuesto
-				);
-				$this->db->insert("cross_merc_impuesto",$dato_impuesto);
+			
+			if (isset($_POST['id_impuesto'])){
+				foreach($_POST['id_impuesto'] as $impuesto)
+				{
+					$dato_impuesto=array(
+						"id_mercancia"	=> $_POST['id_merc'],
+						"id_impuesto"	=> $impuesto
+					);
+					$this->db->insert("cross_merc_impuesto",$dato_impuesto);
+				}
 			}
 			// Produces:
 			// UPDATE mytable 
