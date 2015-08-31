@@ -3731,9 +3731,8 @@ function index()
 				break;
 			}
 			$id_mercancia = $this->modelo_compras->consultarMercancia($id_venta);
-			echo $id_afiliado[0]->debajo_de;
 			
-			if(!$this->modelo_compras->ComprovarCompraMercancia($id_afiliado[0]->debajo_de, $id_mercancia[0]->id)){
+			if(!$this->modelo_compras->ComprovarCompraProductoRed($id_afiliado[0]->debajo_de, $capacidad_red[0]->id)){
 				$i = $i-1;
 			}else{
 				

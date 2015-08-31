@@ -1069,4 +1069,30 @@ where a.id=b.sku and d.id_grupo  = a.id_grupo and b.id_tipo_mercancia= 1 and b.e
 			return false;
 		}
 	}
+	
+	function ComprovarCompraProductoRed($id_usuario, $id_categoria){
+		$mes = date("m");
+		$q = $this->db->query("select count(*) as cantidad from venta v, cross_venta_mercancia cvm, servicio s, mercancia m
+		where v.id_venta = cvm.id_venta and cvm.id_mercancia = m.id and m.sku = s.id and m.id_tipo_mercancia = 2 and s.id_red = ".$id_categoria." and v.id_user = ".$id_usuario." and v.id_estatus=2");
+		$servicio = $q->result();
+		if($servicio[0]->cantidad > 0){
+			return true;
+		}
+	
+		$q = $this->db->query("select count(*) as cantidad from venta v, cross_venta_mercancia cvm, producto s, mercancia m
+		where v.id_venta = cvm.id_venta and cvm.id_mercancia = m.id and m.sku = s.id and m.id_tipo_mercancia = 1 and s.id_grupo = ".$id_categoria." and v.id_user = ".$id_usuario." and v.id_estatus=2");
+		$producto = $q->result();
+		if($producto[0]->cantidad > 0){
+			return true;
+		}
+	
+		$q = $this->db->query("select count(*) as cantidad from venta v, cross_venta_mercancia cvm, combinado s, mercancia m
+		where v.id_venta = cvm.id_venta and cvm.id_mercancia = m.id and m.sku = s.id and m.id_tipo_mercancia = 3 and s.id_red = ".$id_categoria." and v.id_user = ".$id_usuario." and v.id_estatus=2");
+		$producto = $q->result();
+		if($producto[0]->cantidad > 0){
+			return true;
+		}
+	
+		return false;
+	}
 }
