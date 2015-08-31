@@ -245,7 +245,7 @@
 												if($permiso){
 												?>
 												<div class="col-sm-6">
-													<a href="compras/reportes">
+													<a href="compras/tickets">
 														<div class="well well-sm txt-color-white text-center link_dashboard" style="background:<?=$style[0]->btn_2_color?>;">
 															<i class="fa   fa-ticket  fa-3x"></i>
 															<h5>Tickets/Boletos</h5>

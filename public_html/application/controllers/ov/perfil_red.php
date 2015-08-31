@@ -623,8 +623,10 @@ class perfil_red extends CI_Controller
 		}
 		$estadoPremio = "";
 		$premio = $this->DeterminarPremio($id, $id_red);
-		$estadoPremio = $this->modelo_premios->verEstadoPremio($id);
 		
+		$infoPremio = $this->modelo_premios->verEstadoPremio($id);
+		
+		$estadoPremio = $infoPremio[0]->estado;
 		
 		$this->template->set("premio",$premio);
 		$this->template->set("estadoPremio",$estadoPremio);
@@ -687,7 +689,9 @@ class perfil_red extends CI_Controller
 		}
 		
 		$premio = $this->DeterminarPremio($id, $id_red);
-		$estadoPremio = $this->modelo_premios->verEstadoPremio($id);
+		$infoPremio = $this->modelo_premios->verEstadoPremio($id);
+		
+		$estadoPremio = $infoPremio[0]->estado;
 		
 		
 		$this->template->set("premio",$premio);
@@ -754,7 +758,9 @@ class perfil_red extends CI_Controller
 			}
 		}
 		$premio = $this->DeterminarPremio($id, $id_red);
-		$estadoPremio = $this->modelo_premios->verEstadoPremio($id);
+		$infoPremio = $this->modelo_premios->verEstadoPremio($id);
+		
+		$estadoPremio = $infoPremio[0]->estado;
 		
 		
 		$this->template->set("premio",$premio);
@@ -821,7 +827,9 @@ class perfil_red extends CI_Controller
 			}
 		}
 		$premio = $this->DeterminarPremio($id, $id_red);
-		$estadoPremio = $this->modelo_premios->verEstadoPremio($id);
+		$infoPremio = $this->modelo_premios->verEstadoPremio($id);
+		
+		$estadoPremio = $infoPremio[0]->estado;
 		
 		
 		$this->template->set("premio",$premio);

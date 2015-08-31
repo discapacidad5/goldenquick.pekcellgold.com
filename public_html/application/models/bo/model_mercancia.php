@@ -203,13 +203,15 @@ class model_mercancia extends CI_Model {
 	}
 	
 	function ingresarimpuestos($impuestos, $mercancia) {
-		foreach ( $impuestos as $impuesto ) {
-			$dato_impuesto = array (
-					"id_mercancia" => $mercancia,
-					"id_impuesto" => $impuesto 
-			);
-			
-			$this->db->insert ( "cross_merc_impuesto", $dato_impuesto );
+		if (isset($impuestos)){
+			foreach ( $impuestos as $impuesto ) {
+				$dato_impuesto = array (
+						"id_mercancia" => $mercancia,
+						"id_impuesto" => $impuesto 
+				);
+				
+				$this->db->insert ( "cross_merc_impuesto", $dato_impuesto );
+			}
 		}
 	}
 	function img_merc($id, $data) {

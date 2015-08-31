@@ -40,6 +40,7 @@ class cuentasporcobrar extends compras{
 	}
 	
 	function cambiar_estado(){
+		
 		if (! $this->tank_auth->is_logged_in ()) { // logged in
 			redirect ( '/auth' );
 		}
@@ -50,9 +51,10 @@ class cuentasporcobrar extends compras{
 		{
 			redirect('/auth/logout');
 		}
-		$usuario=$this->general->get_username($id);
 		
-		$style=$this->modelo_dashboard->get_style(1);
+		$usuario = $this->general->get_username($id);
+		
+		$style = $this->modelo_dashboard->get_style(1);
 		
 		if(isset($_POST['id_venta']) && isset($_POST['id_historial'])){
 			$id_venta = $_POST['id_venta'];
@@ -62,21 +64,13 @@ class cuentasporcobrar extends compras{
 			
 			$historico = $this->modelo_historial_consignacion->PagoBanco($id_historial);
 			
-			if($this->modelo_historial_consignacion->comprovarCompraWebPersonal($id_venta)){
-				$this->modelo_compras->actualizarcrossCompradorVenta($id_venta,'Pago');
-				$mercancia = $this->modelo_compras->consultarMercancia($id_venta);
-				$comision_venta_web_personal = ($mercancia[0]->costo_publico - $mercancia[0]->costo) * $mercancia[0]->cantidad;
-				$this->modelo_compras->insertar_comision_web_personal($_POST['id_usuario'], $id_venta, $mercancia[0]->id_comprador, $comision_venta_web_personal);
-			}
-			
-			
 			$this->ComisionBanco($historico);
 			
 			$this->EnvarMail($id_historial);
 			echo  "La peticion se ha cambiado de estado a pago";
 			//$this->session->set_flashdata('correcto', $correcto);
 		}else{
-			echo  "No se ha pordido realizar el cambio de estado de la peticion.";
+			echo  "No se ha podido realizar el cambio de estado de la peticion.";
 			//$this->session->set_flashdata('error', $error);
 		}
 	}

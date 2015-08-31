@@ -105,150 +105,14 @@ function index()
 			redirect('/auth');
 		}
 		
-		$id=$this->tank_auth->get_user_id();
-		$usuario=$this->general->get_username($id);
-		//$style=$this->general->get_style($id);
+		$id = $this->tank_auth->get_user_id();
+		$usuario = $this->general->get_username($id);
 		$grupos = $this->model_mercancia->CategoriasMercancia();
 		$redes = $this->model_tipo_red->RedesUsuario($id);
 		
 		$this->template->set("usuario",$usuario);
 		$this->template->set("grupos",$grupos);
 		
-		/*
-		$this->template->set("style",$style);
-		$productos=$this->modelo_compras->get_productos();
-		for($i=0;$i<sizeof($productos);$i++)
-		{
-			$imagen=$this->modelo_compras->get_img($productos[$i]->id);
-			if(isset($imagen[0]))
-			{
-				$productos[$i]->img=$imagen[0]->url;
-			}
-			else 
-			{
-				$productos[$i]->img="";
-			}
-			$impuestos=$this->modelo_compras->get_impuestos_merca($productos[$i]->id);
-			$costo_ini=$productos[$i]->costo;
-			$costo_total=$costo_ini;
-			foreach($impuestos as $imp)
-			{
-				$mas=($imp*$costo_ini)/100;
-				$costo_total=$costo_total+$mas;
-			}
-			$productos[$i]->costo=$costo_total;
-		}
-		$servicios=$this->modelo_compras->get_servicios();
-		for($j=0;$j<sizeof($servicios);$j++)
-		{
-			$imagen=$this->modelo_compras->get_img($servicios[$j]->id);
-			if(isset($imagen[0]))
-			{
-				$servicios[$j]->img=$imagen[0]->url;
-			}
-			else 
-			{
-				$servicios[$j]->img="";
-			}
-			$impuestos=$this->modelo_compras->get_impuestos_merca($servicios[$j]->id);
-			$costo_ini=$servicios[$j]->costo;
-			$costo_total=$costo_ini;
-			foreach($impuestos as $imp)
-			{
-				$mas=($imp*$costo_ini)/100;
-				$costo_total=$costo_total+$mas;
-			}
-			$servicios[$j]->costo=$costo_total;
-		}
-		$combinados=$this->modelo_compras->get_combinados();
-		for($k=0;$k<sizeof($combinados);$k++)
-		{
-			$imagen=$this->modelo_compras->get_img($combinados[$k]->id);
-			if(isset($imagen[0]))
-			{
-				$combinados[$k]->img=$imagen[0]->url;
-			}
-			else 
-			{
-				$combinados[$k]->img="";
-			}
-			$impuestos=$this->modelo_compras->get_impuestos_merca($combinados[$k]->id);
-			$costo_ini=$combinados[$k]->costo;
-			$costo_total=$costo_ini;
-			foreach($impuestos as $imp)
-			{
-				$mas=($imp*$costo_ini)/100;
-				$costo_total=$costo_total+$mas;
-			}
-			$combinados[$k]->costo=$costo_total;
-		}
-		$promocion_p=$this->modelo_compras->get_promocion_prod();
-		for($n=0;$n<sizeof($promocion_p);$n++)
-		{
-			$imagen=$this->modelo_compras->get_img_prom($promocion_p[$n]->id_promocion);
-			if(isset($imagen[0]))
-			{
-				$promocion_p[$n]->img=$imagen[0]->url;
-			}
-			else 
-			{
-				$promocion_p[$n]->img="";
-			}
-			$impuestos=$this->modelo_compras->get_impuestos_merca($promocion_p[$n]->id);
-			$costo_ini=$promocion_p[$n]->costo*(1-($promocion_p[$n]->prom_costo/100));
-			$costo_total=$costo_ini;
-			foreach($impuestos as $imp)
-			{
-				$mas=($imp*$costo_ini)/100;
-				$costo_total=$costo_total+$mas;
-			}
-			$promocion_p[$n]->costo=$costo_total;
-		}
-		$promocion_s=$this->modelo_compras->get_promocion_serv();
-		for($m=0;$m<sizeof($promocion_s);$m++)
-		{
-			$imagen=$this->modelo_compras->get_img_prom($promocion_s[$m]->id_promocion);
-			if(isset($imagen[0]))
-			{
-				$promocion_s[$m]->img=$imagen[0]->url;
-			}
-			else 
-			{
-				$promocion_s[$m]->img="";
-			}
-			$impuestos=$this->modelo_compras->get_impuestos_merca($promocion_s[$m]->id);
-			$costo_ini=$promocion_s[$m]->costo*(1-($promocion_s[$m]->prom_costo/100));
-			$costo_total=$costo_ini;
-			foreach($impuestos as $imp)
-			{
-				$mas=($imp*$costo_ini)/100;
-				$costo_total=$costo_total+$mas;
-			}
-			$promocion_s[$m]->costo=$costo_total;
-		}
-		$promocion_c=$this->modelo_compras->get_promocion_comb();
-		for($l=0;$l<sizeof($promocion_c);$l++)
-		{
-			$imagen=$this->modelo_compras->get_img_prom($promocion_c[$l]->id_promocion);
-			if(isset($imagen[0]))
-			{
-				$promocion_c[$l]->img=$imagen[0]->url;
-			}
-			else
-			{
-				$promocion_c[$l]->img="";
-			}
-			$impuestos=$this->modelo_compras->get_impuestos_merca($promocion_c[$l]->id);
-			$costo_ini=$promocion_c[$l]->costo*(1-($promocion_c[$l]->prom_costo/100));
-			$costo_total=$costo_ini;
-			foreach($impuestos as $imp)
-			{
-				$mas=($imp*$costo_ini)/100;
-				$costo_total=$costo_total+$mas;
-			}
-			$promocion_c[$l]->costo=$costo_total;
-		}
-		*/
 		$info_compras=Array();
 		$producto=0;
 		if($this->cart->contents())
@@ -294,12 +158,6 @@ function index()
 			} 
 		} 
 		$data=array();
-		//$data['prod']=$productos;
-		//$data['serv']=$servicios;
-		//$data['comb']=$combinados;
-		//$data['prom_p']=$promocion_p;
-		//$data['prom_s']=$promocion_s;
-		//$data['prom_c']=$promocion_c;
 		$data['compras']= $info_compras;
 		$this->template->set("redes", $redes);
 		$this->template->set_theme('desktop');
@@ -728,6 +586,26 @@ function index()
 		$this->template->build('website/ov/compra_reporte/reportes');
 	}
 	
+	function tickets()
+	{
+		if (!$this->tank_auth->is_logged_in())
+		{																		// 		logged in
+			redirect('/auth');
+		}
+	
+		$id=$this->tank_auth->get_user_id();
+		$usuario=$this->general->get_username($id);
+		$style=$this->general->get_style($id);
+		$this->template->set("style",$style);
+		$this->template->set("usuario",$usuario);
+	
+		$this->template->set_theme('desktop');
+		$this->template->set_layout('website/main');
+		$this->template->set_partial('header', 'website/ov/header');
+		$this->template->set_partial('footer', 'website/ov/footer');
+		$this->template->build('website/ov/tickets/listar');
+	}
+
 	function carrito_menu()
 	{
 		if (!$this->tank_auth->is_logged_in()) 
@@ -1752,8 +1630,8 @@ function index()
 					}
 					else
 					{
-						$min=0;
-						$max=10;
+						$min=1;
+						$max=1;
 					}
 			echo "<form id='comprar'  method='post' action=''>
 				<div class='row'>
@@ -2497,47 +2375,7 @@ function index()
 				$comb[$k]->img="";
 			}
 		}
-		/*
-		$prom_p=$this->modelo_compras->get_promocion_prod();
-		for($n=0;$n<sizeof($prom_p);$n++)
-		{
-			$imagen=$this->modelo_compras->get_img_prom($prom_p[$n]->id_promocion);
-			if(isset($imagen[0]))
-			{
-				$prom_p[$n]->img=$imagen[0]->url;
-			}
-			else 
-			{
-				$prom_p[$n]->img="";
-			}
-		}
-		$prom_s=$this->modelo_compras->get_promocion_serv();
-		for($m=0;$m<sizeof($prom_s);$m++)
-		{
-			$imagen=$this->modelo_compras->get_img_prom($prom_s[$m]->id_promocion);
-			if(isset($imagen[0]))
-			{
-				$prom_s[$m]->img=$imagen[0]->url;
-			}
-			else 
-			{
-				$prom_s[$m]->img="";
-			}
-		}
-		$prom_c=$this->modelo_compras->get_promocion_comb();
-		for($l=0;$l<sizeof($prom_c);$l++)
-		{
-			$imagen=$this->modelo_compras->get_img_prom($prom_c[$l]->id_promocion);
-			if(isset($imagen[0]))
-			{
-				$prom_c[$l]->img=$imagen[0]->url;
-			}
-			else 
-			{
-				$prom_c[$l]->img="";
-			}
-		}*/
-		//$prom=$this->modelo_compras->get_promocion();
+		
 		for($productos=0;$productos<sizeof($prod);$productos++)
 		{
 			
@@ -2601,76 +2439,7 @@ function index()
 									       </div>
 								       </div> 
 								';
-		}/*
-		for($promocion_p=0;$promocion_p<sizeof($prom_p);$promocion_p++)
-		{
-			echo '	<div class="item col-lg-3 col-md-3 col-sm-4 col-xs-6">
-				    	<div class="product">
-					    	<a class="add-fav tooltipHere" data-toggle="tooltip" data-original-title="Add to Wishlist"  data-placement="left">
-					        	<i class="glyphicon glyphicon-heart"></i>
-					        </a>
-				          
-				          		<div class="image"> <a onclick="detalles('.$prom_p[$promocion_p]->id_promocion.',4)"><img src="'.$prom_p[$promocion_p]->img.'" alt="img" class="img-responsive"></a>
-				              		<div class="promotion">  </div>
-				            	</div>
-				            	<div class="description">
-				              		<h4><a href="product-details.html">'.$prom_p[$promocion_p]->nombre.'</a></h4>
-				              		<p>'.$prom_p[$promocion_p]->descripcion.'.
-				              		</br></br>Producto</br>'.$prom_p[$promocion_p]->producto.'</p>
-				              		
-				              	</div>
-				            	<div class="price"> <span>$ '.$prom_p[$promocion_p]->costo*(1-($prom_p[$promocion_p]->prom_costo/100)).'</span> </div>
-				            	<div class="action-control"> <a class="btn btn-primary" onclick="compra_prev('.$prom_p[$promocion_p]->id_promocion.',4,0)"> <span class="add2cart"><i class="glyphicon glyphicon-shopping-cart"> </i> Añadir al carrito </span> </a> </div>
-				       </div>
-			       </div>
-			';
 		}
-		for($promocion_s=0;$promocion_s<sizeof($prom_s);$promocion_s++)
-		{
-			echo '	<div class="item col-lg-3 col-md-3 col-sm-4 col-xs-6">
-				    	<div class="product">
-					    	<a class="add-fav tooltipHere" data-toggle="tooltip" data-original-title="Add to Wishlist"  data-placement="left">
-					        	<i class="glyphicon glyphicon-heart"></i>
-					        </a>
-				          
-				          		<div class="image"> <a onclick="detalles('.$prom_s[$promocion_s]->id_promocion.',5)"><img src="'.$prom_s[$promocion_s]->img.'" alt="img" class="img-responsive"></a>
-				              		<div class="promotion">  </div>
-				            	</div>
-				            	<div class="description">
-				              		<h4><a href="product-details.html">'.$prom_s[$promocion_s]->nombre.'</a></h4>
-				              		<p>'.$prom_s[$promocion_s]->descripcion.'.
-				              		</br></br>Servicio</br>'.$prom_s[$promocion_s]->producto.'</p>
-				              		
-				              	</div>
-				            	<div class="price"> <span>$ '.$prom_s[$promocion_s]->costo*(1-($prom_s[$promocion_s]->prom_costo/100)).'</span> </div>
-				            	<div class="action-control"> <a class="btn btn-primary" onclick="compra_prev('.$prom_s[$promocion_s]->id_promocion.',5,0)"> <span class="add2cart"><i class="glyphicon glyphicon-shopping-cart"> </i> Añadir al carrito </span> </a> </div>
-				       </div>
-			       </div>
-			';
-		}
-		for($promocion_c=0;$promocion_c<sizeof($prom_c);$promocion_c++)
-		{
-			echo '	<div class="item col-lg-3 col-md-3 col-sm-4 col-xs-6">
-				    	<div class="product">
-					    	<a class="add-fav tooltipHere" data-toggle="tooltip" data-original-title="Add to Wishlist"  data-placement="left">
-					        	<i class="glyphicon glyphicon-heart"></i>
-					        </a>
-				          
-				          		<div class="image"> <a onclick="detalles('.$prom_c[$promocion_c]->id_promocion.',6)"><img src="'.$prom_c[$promocion_c]->img.'" alt="img" class="img-responsive"></a>
-				              		<div class="promotion">  </div>
-				            	</div>
-				            	<div class="description">
-				              		<h4><a href="product-details.html">'.$prom_c[$promocion_c]->nombre.'</a></h4>
-				              		<p>'.$prom_c[$promocion_c]->descripcion.'.
-				              		</br></br>Combinado</br>'.$prom_c[$promocion_c]->combinado.'</p>
-				              		
-				              	</div>
-				            	<div class="price"> <span>$ '.$prom_c[$promocion_c]->costo*(1-($prom_c[$promocion_c]->prom_costo/100)).'</span> </div>
-				            	<div class="action-control"> <a class="btn btn-primary" onclick="compra_prev('.$prom_c[$promocion_c]->id_promocion.',6,0)"> <span class="add2cart"><i class="glyphicon glyphicon-shopping-cart"> </i> Añadir al carrito </span> </a> </div>
-				       </div>
-			       </div>
-			';
-		}*/
 	}
 											    	
 	function buscar_servicio()
