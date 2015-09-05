@@ -540,8 +540,8 @@ class perfil_red extends CI_Controller
 			}
 			$this->VerificarCompras($afiliado2->id_afiliado, $id_red,$nivel+1);
 		}
-		var_dump($afiliados);
-		exit();
+		//var_dump($afiliados);
+		//exit();
 	}
 	
 	private function DeterminarPremio($id_afiliado,$id_red){

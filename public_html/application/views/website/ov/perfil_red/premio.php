@@ -34,12 +34,12 @@
 						<!-- widget content -->
 						<div class="widget-body">
 							
-							<h1 class="alert alert-success">Has ganado un <?php echo $premio[0]->nombre?></h1>
+							<h1 class="alert alert-success">Has ganado un <?php echo $nombre?> en la red <?php echo $nombre_red?></h1>
 							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-								<img style="height: 15rem;" src="<?php echo $premio[0]->imagen; ?>" alt="<?php echo $premio[0]->nombre; ?>"></img>
+								<img style="height: 15rem;" src="<?php echo $imagen; ?>" alt="<?php echo $nombre; ?>"></img>
 							</div>
 							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-								<p class=""><?php echo $premio[0]->descripcion; ?></p>
+								<p class=""><?php echo $descripcion; ?></p>
 							</div>
 							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 								<p class="text-danger">Nota: Verifica tus datos personales de tu perfil: direccion, telefonos, email</p>

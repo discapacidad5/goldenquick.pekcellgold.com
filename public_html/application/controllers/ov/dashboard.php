@@ -13,6 +13,56 @@ class dashboard extends CI_Controller
 		$this->lang->load('tank_auth');
 		$this->load->model('ov/modelo_dashboard');
 		$this->load->model('ov/general');
+		$this->load->model('ov/modelo_compras');
+		$this->load->model('modelo_premios');
+		$this->load->model('model_tipo_red');
+	}
+	
+	private function VerificarCompras($id_afiliado,$id_red,$nivel){
+	
+		$afiliados = $this->modelo_compras->traer_afiliados_red($id_afiliado, $id_red);
+	
+		$id_categoria = $this->modelo_compras->ConsultarIdCategoriaMercancia($id_red);
+		$contador = 0;
+	
+		foreach ($afiliados as $afiliado2){
+				
+			if($this->modelo_compras->ComprovarCompraProducto($afiliado2->id_afiliado, $id_categoria)){
+				$contador = 1;
+			}
+			if(isset($this->afiliados[$nivel])){
+				$this->afiliados[$nivel] =  $contador + $this->afiliados[$nivel];
+			}else{
+				$this->afiliados[$nivel] = $contador;
+			}
+			$this->VerificarCompras($afiliado2->id_afiliado, $id_red,$nivel+1);
+		}
+		//var_dump($afiliados);
+		//exit();
+	}
+	
+	private function DeterminarPremio($id_afiliado,$id_red){
+	
+		$this->VerificarCompras($id_afiliado, $id_red, 0);
+		//var_dump($this->afiliados); exit;
+		$premio = 0;
+		$premios = $this->modelo_premios->getPremiosCondicion($id_red);
+		$i=1;
+		foreach ($this->afiliados as $nivel){
+			foreach ($premios as $premio_cond){
+				if($premio_cond->nivel == $i && $nivel == $premio_cond->num_afiliados){
+					$premio = $premio_cond->id;
+				}
+			}
+			$i++;
+		}
+		if($premio != 0){
+			$enviar = $this->RegistrarPremioAfiliado($id_afiliado,$premio);
+			if($enviar){
+				$this->EnviarMail($id_afiliado, $premio);
+			}
+		}
+		return $premio;
 	}
 
 	function index()
@@ -51,7 +101,27 @@ class dashboard extends CI_Controller
 			}
 		}
 		$style=$this->modelo_dashboard->get_style($id);
+		
+		$estadoPremio = array();
+		
+		$redes = $this->model_tipo_red->RedesUsuario($id);
+		$i = 0;
+		foreach ($redes as $red){
+			$premio[$i] = $this->DeterminarPremio($id, $red->id);
+			$i++;
+		}
+		
+		$infoPremios = $this->modelo_premios->verEstadoPremio($id);
 
+		/*
+		$i = 0;
+		foreach ($infoPremios as $infoPremio){
+			$estadoPremio[$i] = $infoPremio->estado;
+			$premioPendiente[$i] = $infoPremio->nombre;
+			$i++;
+		}*/
+		
+		$this->template->set("infoPremios",$infoPremios);
 		$this->template->set("id",$id);
 		$this->template->set("usuario",$usuario);
 	    $this->template->set("telefono",$telefono);
@@ -70,5 +140,20 @@ class dashboard extends CI_Controller
         $this->template->set_partial('header', 'website/ov/header');
         $this->template->set_partial('footer', 'website/ov/footer');
 		$this->template->build('website/ov/view_dashboard');
+	}
+	
+	function ConsultarPremio(){
+		$nombre = $_POST['nombre'];
+		$descripcion = $_POST['descripcion'];
+		$nombre_red = $_POST['nombre_red'];
+		$imagen = $_POST['imagen'];
+		
+		var_dump($nombre);exit();
+		
+		$this->template->set("nombre",$nombre);
+		$this->template->set("descripcion",$descripcion);
+		$this->template->set("nombre_red",$nombre_red);
+		$this->template->set("imagen",$imagen);
+		$this->template->build('website/ov/perfil_red/premio');
 	}
 }

@@ -94,7 +94,9 @@ where p.id = cpu.id_premio and cpu.id_afiliado = u.id and u.id = up.user_id and 
 	}
 	
 	function verEstadoPremio($id){
-		$query = $this->db->query("select * from cross_premio_usuario where id_afiliado=".$id." and estado = 'Pendiente' limit 1");
+		$query = $this->db->query("select CPU.estado, P.nombre, P.imagen, P.descripcion, TR.nombre nombre_red from cross_premio_usuario CPU, premios P, tipo_red TR 
+
+where id_afiliado=".$id." and estado = 'Pendiente' and CPU.id_premio = P.id and P.id_red = TR.id");
 		$query = $query->result();
 /*HEAD
 		if(isset($query[0]->estado))

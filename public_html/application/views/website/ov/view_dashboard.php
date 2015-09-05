@@ -1,5 +1,54 @@
 <?php $ci = &get_instance();
    	$ci ->load ->model("model_permissions");?>
+   	
+<script src="/template/js/plugin/jquery-form/jquery-form.min.js"></script>
+<script src="/template/js/validacion.js"></script>
+<script src="/template/js/plugin/fuelux/wizard/wizard.min.js"></script>
+<script type="text/javascript">
+	function InformarPremio(nombre, descripcion, nombre_red, imagen){
+		alert(nombre);
+		$.ajax({
+			type: "POST",
+			url: "ov/dashboard/ConsultarPremio",
+			data: {nombre:nombre,descripcion:descripcion,nombre_red:nombre_red,imagen:imagen}
+		})
+		.done(function( msg )
+		{
+			bootbox.dialog({
+				message: msg,
+				title: "Felicitaciones",
+				buttons: {
+					success: {
+					label: "Cerrar!",
+					className: "btn btn-danger",
+					callback: function() {
+						//location.href="";
+						}
+					}
+				}
+			});
+		});
+	}
+</script>
+   	
+   	<?php 	$salir=0;
+	   	if(isset($infoPremios)){
+	   		foreach ($infoPremios as $infoPremio){
+	   			if ($salir==0){
+		   			if ($infoPremio->estado == 'Pendiente'){
+		   				
+		   				?>
+	   				<script type="text/javascript">
+	   				window.onload = function() {
+	   					InformarPremio(<?php echo $infoPremio->nombre; ?>, <?php echo $infoPremio->descripcion; ?>, <?php echo $infoPremio->nombre_red; ?>, <?php echo $infoPremio->imagen; ?>);
+	   					// Puedes agregar mas eventos que se ejecutaran al cargar la pagina
+	   				}
+	   				</script>
+	   			<?php $salir=1;}
+		   				
+					}
+		   		}
+	   	}?>
 			<!-- MAIN CONTENT -->
 			<div id="content" >
 
@@ -10,6 +59,7 @@
 				<!-- end row -->
 
       <div class="row">
+      
 					<div class="col-sm-12">
 							<div class="well well-sm">
 								<div class="row">
@@ -29,7 +79,7 @@
 														</div>
 													</div>
 												</div>
-
+	
 												<div class="col-sm-12">
 
 													<div class="row">
@@ -37,6 +87,7 @@
 														<div class="col-sm-3 profile-pic">
 															<img src="<?=$user?>" alt="demo user">
 															<div class="padding-10">
+															
 															<!--	<h4 class="font-md"><strong>1,543</strong>
 																<br>
 																<small>Followers</small></h4>
@@ -47,6 +98,9 @@
 															</div>
 														</div>
 														<div class="col-sm-6">
+														
+														
+														
 															<h1><?=$usuario[0]->nombre?> <span class="semi-bold"><?=$usuario[0]->apellido?></span>
 															<br>
 															<small> Diamante</small></h1>
@@ -92,6 +146,7 @@
 															<br>
 														</div>
 														<div class="col-sm-3">
+														
                            <!--
 															<h1><small>Connections</small></h1>
 															<ul class="list-inline friends-list">
