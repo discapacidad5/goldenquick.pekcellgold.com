@@ -27,7 +27,7 @@ class Model_tipo_red extends CI_Model{
 
 	function listarTodos()
 	{
-		$q=$this->db->query('select id, nombre, descripcion from tipo_red group by id');
+		$q=$this->db->query('select * from tipo_red group by id');
 		return $q->result();
 	}
 	
@@ -39,7 +39,7 @@ class Model_tipo_red extends CI_Model{
 	
 	function traerRed($idRed)
 	{
-		$q=$this->db->query('select nombre, descripcion from tipo_red where id = '.$idRed);
+		$q=$this->db->query('select * from tipo_red where id = '.$idRed);
 		return $q->result();
 	}
 	

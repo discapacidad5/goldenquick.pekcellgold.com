@@ -17,6 +17,11 @@ class modelo_premios extends CI_Model
 		return $q->result();
 	}
 	
+	function traerPremios(){
+		$q = $this->db->query("select * from premios");
+		return $q->result();
+	}
+	
 	function InsertarPremioAfiliado($id_premio,$id_afiliado){
 		if(!$this->consultar_premio_afiliado($id_premio, $id_afiliado)){
 			$datos = array(
@@ -28,6 +33,22 @@ class modelo_premios extends CI_Model
 		}else{
 			return false;
 		}
+	}
+	
+	function actualizarPremio($id_premio,$nombre,$descripcion,$imagen,$nivel,$num_afiliados,$id_red,$frecuencia){
+		
+			$datos = array(
+					'nombre' => $nombre,
+					'descripcion' => $descripcion,
+					'imagen' => $imagen,
+					'nivel' => $nivel,
+					'num_afiliados' => $num_afiliados,
+					'id_red' => $id_red,
+					'frecuencia' => $frecuencia
+			);
+			$this->db->where('id', $id_premio);
+			$this->db->update("premios", $datos);
+		
 	}
 	
 	function consultar_premio_afiliado($id_premio,$id_afiliado){
@@ -75,6 +96,12 @@ where p.id = cpu.id_premio and cpu.id_afiliado = u.id and u.id = up.user_id and 
 	function verEstadoPremio($id){
 		$query = $this->db->query("select * from cross_premio_usuario where id_afiliado=".$id." and estado = 'Pendiente' limit 1");
 		$query = $query->result();
+/*HEAD
+		if(isset($query[0]->estado))
+			return $query[0]->estado;
+		else
+			return "Pendiente";
+=======*/
 		return $query;
 	}
 	
@@ -98,5 +125,16 @@ where p.id = cpu.id_premio and cpu.id_afiliado = u.id and u.id = up.user_id and 
 from premios p, users u, user_profiles up, cross_premio_usuario cpu
 where p.id = cpu.id_premio and cpu.id_afiliado = u.id and u.id = up.user_id and u.id = '.$id_afiliado.' and p.id = '.$id_premio.' group by cpu.id');
 		return $q->result();
+	}
+	
+	function cambiar_estatus($id, $estatus){
+		$datos = array(
+				'estatus' =>  $estatus
+		);
+		$this->db->update('premios',$datos,array('id' => $id));
+	}
+	
+	function eliminar($id){
+		$this->db->query('delete from premios where id = '.$id);
 	}
 }
