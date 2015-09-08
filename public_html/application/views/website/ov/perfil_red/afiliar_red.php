@@ -1018,16 +1018,7 @@ function InformarPremio(premio){
 						<div class="widget-body">
 							<div id="myTabContent1" class="tab-content padding-10">
 								<div class="tab-pane fade in active" id="s2">
-									<?php if($premio != 0){
-											if ($estadoPremio == 'Pendiente'){ ?>
-										<script type="text/javascript">
-										window.onload = function() {
-										    InformarPremio(<?php echo $premio; ?>);
-										    // Puedes agregar mas eventos que se ejecutaran al cargar la pagina
-										}
-										</script>
-									<?php }
-									} ?>
+									
 									<div id="dos" class="row">
 										<!--
 										We will create a family tree1 using just CSS(3)

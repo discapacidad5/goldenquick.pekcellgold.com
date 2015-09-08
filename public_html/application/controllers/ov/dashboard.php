@@ -17,54 +17,96 @@ class dashboard extends CI_Controller
 		$this->load->model('modelo_premios');
 		$this->load->model('model_tipo_red');
 	}
+
+	private $afiliados = array();
 	
-	private function VerificarCompras($id_afiliado,$id_red,$nivel){
-	
+	private function VerificarCompras($id_afiliado,$id_red,$nivel, $profundidad, $frecuencia){
+		
+		if ($nivel<$profundidad){
 		$afiliados = $this->modelo_compras->traer_afiliados_red($id_afiliado, $id_red);
-	
-		$id_categoria = $this->modelo_compras->ConsultarIdCategoriaMercancia($id_red);
+		
 		$contador = 0;
-	
-		foreach ($afiliados as $afiliado2){
+		$siCompro = 0;
+		$this->afiliados[$nivel]=0;
+				foreach ($afiliados as $afiliado2){
+					$siCompro = 0;
+					if($this->modelo_compras->ComprovarCompraProducto($afiliado2->id_afiliado, $id_red, $frecuencia)){
+						$siCompro = 1;
+					}
+					if($this->afiliados[$nivel]!=0){
+						$this->afiliados[$nivel] =  $siCompro + $this->afiliados[$nivel];
+					}else{
+						$this->afiliados[$nivel] = $siCompro;
+					}
+					
+					$this->VerificarCompras($afiliado2->id_afiliado, $id_red,$nivel+1,$profundidad, $frecuencia);
+					
+				}
 				
-			if($this->modelo_compras->ComprovarCompraProducto($afiliado2->id_afiliado, $id_categoria)){
-				$contador = 1;
-			}
-			if(isset($this->afiliados[$nivel])){
-				$this->afiliados[$nivel] =  $contador + $this->afiliados[$nivel];
-			}else{
-				$this->afiliados[$nivel] = $contador;
-			}
-			$this->VerificarCompras($afiliado2->id_afiliado, $id_red,$nivel+1);
 		}
-		//var_dump($afiliados);
-		//exit();
+		
 	}
 	
 	private function DeterminarPremio($id_afiliado,$id_red){
-	
-		$this->VerificarCompras($id_afiliado, $id_red, 0);
-		//var_dump($this->afiliados); exit;
-		$premio = 0;
+		
 		$premios = $this->modelo_premios->getPremiosCondicion($id_red);
-		$i=1;
-		foreach ($this->afiliados as $nivel){
-			foreach ($premios as $premio_cond){
-				if($premio_cond->nivel == $i && $nivel == $premio_cond->num_afiliados){
-					$premio = $premio_cond->id;
+		
+		foreach ($premios as $premio){
+	
+			$this->VerificarCompras($id_afiliado, $id_red, 0, $premio->nivel, $premio->frecuencia);
+			//var_dump($this->afiliados); exit;
+			
+			$i=1;
+			foreach ($this->afiliados as $num_afiliados){
+				
+				
+				$ganoPremio = 0;
+					if($premio->nivel == $i && $num_afiliados >= $premio->num_afiliados){
+						$ganoPremio = 1;
+					}
+					
+				$i++;
+				if($ganoPremio != 0){
+					$enviar = $this->RegistrarPremioAfiliado($id_afiliado,$premio->id, $premio->frecuencia);
+					if($enviar){
+						$this->EnviarMail($id_afiliado, $premio->id);
+					}
 				}
 			}
-			$i++;
-		}
-		if($premio != 0){
-			$enviar = $this->RegistrarPremioAfiliado($id_afiliado,$premio);
-			if($enviar){
-				$this->EnviarMail($id_afiliado, $premio);
+			$i=0;
+			foreach ($this->afiliados as $num_afiliados){
+				$this->afiliados[$i] = 0;
+				$i++;
 			}
+			
+			unset($GLOBALS['afiliados']);
 		}
-		return $premio;
 	}
 
+	private function RegistrarPremioAfiliado($id_afiliado, $id_premio, $frecuencia){
+		return $this->modelo_premios->InsertarPremioAfiliado($id_premio,$id_afiliado, $frecuencia);
+	}
+	
+	private function EnviarMail($id_afiliado, $id_premio){
+	
+		$datos = $this->modelo_premios->datosEmail($id_afiliado, $id_premio);
+		$premio['usuario'] = $datos[0]->nombre;
+		$premio['premio'] = $datos[0]->premio;
+		$premio['descripcion'] = $datos[0]->descripcion;
+		$premio['imagen'] = $datos[0]->imagen;
+		//$this->load->view('email/Premio', $premio);
+	
+		$this->load->library('email');
+		$this->email->from($this->config->item('webmaster_email', 'tank_auth'), $this->config->item('website_name', 'tank_auth'));
+		$this->email->reply_to($this->config->item('webmaster_email', 'tank_auth'), $this->config->item('website_name', 'tank_auth'));
+		$this->email->to($datos[0]->email);
+		$this->email->subject('Confirmacion de pago por Banco');
+		$this->email->message($this->load->view('email/Premio', $premio, TRUE));
+		//$this->email->set_alt_message($this->load->view('email/activate-txt', $data, TRUE));
+		$this->email->send();
+	
+	}
+	
 	function index()
 	{
 		if (!$this->tank_auth->is_logged_in())
@@ -89,6 +131,7 @@ class dashboard extends CI_Controller
 		$image=$this->modelo_dashboard->get_images($id);
 		$fondo="/template/img/portada.jpg";
 		$user="/template/img/empresario.jpg";
+		
 		foreach ($image as $img) {
 			$cadena=explode(".", $img->img);
 			if($cadena[0]=="user")
@@ -100,28 +143,23 @@ class dashboard extends CI_Controller
 				$fondo=$img->url;
 			}
 		}
+		
 		$style=$this->modelo_dashboard->get_style($id);
 		
-		$estadoPremio = array();
-		
 		$redes = $this->model_tipo_red->RedesUsuario($id);
-		$i = 0;
+		
 		foreach ($redes as $red){
-			$premio[$i] = $this->DeterminarPremio($id, $red->id);
-			$i++;
+			$this->DeterminarPremio($id, $red->id);
 		}
 		
 		$infoPremios = $this->modelo_premios->verEstadoPremio($id);
-
-		/*
-		$i = 0;
-		foreach ($infoPremios as $infoPremio){
-			$estadoPremio[$i] = $infoPremio->estado;
-			$premioPendiente[$i] = $infoPremio->nombre;
-			$i++;
-		}*/
 		
-		$this->template->set("infoPremios",$infoPremios);
+		$hayPremios = false;
+		if (isset($infoPremios[0]->nombre)){
+			$hayPremios = true;
+		}
+		
+		$this->template->set("hayPremios",$hayPremios);
 		$this->template->set("id",$id);
 		$this->template->set("usuario",$usuario);
 	    $this->template->set("telefono",$telefono);
@@ -143,17 +181,10 @@ class dashboard extends CI_Controller
 	}
 	
 	function ConsultarPremio(){
-		$nombre = $_POST['nombre'];
-		$descripcion = $_POST['descripcion'];
-		$nombre_red = $_POST['nombre_red'];
-		$imagen = $_POST['imagen'];
+		$id=$this->tank_auth->get_user_id();
+		$infoPremios = $this->modelo_premios->verEstadoPremio($id);
 		
-		var_dump($nombre);exit();
-		
-		$this->template->set("nombre",$nombre);
-		$this->template->set("descripcion",$descripcion);
-		$this->template->set("nombre_red",$nombre_red);
-		$this->template->set("imagen",$imagen);
+		$this->template->set("infoPremios",$infoPremios);
 		$this->template->build('website/ov/perfil_red/premio');
 	}
 }

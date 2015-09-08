@@ -32,19 +32,25 @@
 						</div>
 						<!-- end widget edit box -->
 						<!-- widget content -->
+						
 						<div class="widget-body">
-							
-							<h1 class="alert alert-success">Has ganado un <?php echo $nombre?> en la red <?php echo $nombre_red?></h1>
-							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-								<img style="height: 15rem;" src="<?php echo $imagen; ?>" alt="<?php echo $nombre; ?>"></img>
-							</div>
-							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-								<p class=""><?php echo $descripcion; ?></p>
-							</div>
+							<?php foreach ($infoPremios as $infoPremio){?>
+								<div class="row">
+									<h1 class="alert alert-success">Has ganado un <?php echo $infoPremio->nombre?> en la red <?php echo $infoPremio->nombre_red?></h1>
+									<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+										<img style="height: 15rem;" src="<?php echo $infoPremio->imagen; ?>" alt="<?php echo $infoPremio->nombre; ?>"></img>
+									</div>
+									<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+										<p class=""><?php echo $infoPremio->descripcion; ?></p>
+									</div>
+									
+								</div>
+							<?php }?>
 							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-								<p class="text-danger">Nota: Verifica tus datos personales de tu perfil: direccion, telefonos, email</p>
-							</div>
+										<p class="text-danger">Nota: Verifica tus datos personales de tu perfil: direccion, telefonos, email</p>
+									</div>
 						</div>
+						
 						<!-- end widget content -->
 						
 					</div>

@@ -31,23 +31,34 @@
 	}
 </script>
    	
-   	<?php 	$salir=0;
-	   	if(isset($infoPremios)){
-	   		foreach ($infoPremios as $infoPremio){
-	   			if ($salir==0){
-		   			if ($infoPremio->estado == 'Pendiente'){
-		   				
-		   				?>
+   	<?php
+	   	if($hayPremios==true){
+	   	?>
 	   				<script type="text/javascript">
 	   				window.onload = function() {
-	   					InformarPremio(<?php echo $infoPremio->nombre; ?>, <?php echo $infoPremio->descripcion; ?>, <?php echo $infoPremio->nombre_red; ?>, <?php echo $infoPremio->imagen; ?>);
-	   					// Puedes agregar mas eventos que se ejecutaran al cargar la pagina
+	   					$.ajax({
+	   						type: "POST",
+	   						url: "/ov/dashboard/ConsultarPremio",
+	   						data: {}
+	   					}).done(function( msg )
+	   							{
+	   						bootbox.dialog({
+	   							message: msg,
+	   							title: "Felicitaciones",
+	   							buttons: {
+	   								success: {
+	   								label: "Cerrar!",
+	   								className: "btn btn-danger",
+	   								callback: function() {
+	   									//location.href="";
+	   									}
+	   								}
+	   							}
+	   						});
+	   					});
 	   				}
 	   				</script>
-	   			<?php $salir=1;}
-		   				
-					}
-		   		}
+	   			<?php 
 	   	}?>
 			<!-- MAIN CONTENT -->
 			<div id="content" >

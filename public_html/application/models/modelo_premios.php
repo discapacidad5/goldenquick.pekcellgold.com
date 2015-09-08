@@ -8,7 +8,7 @@ class modelo_premios extends CI_Model
 	}
 	
 	function getPremiosCondicion($id_red){
-		$q = $this->db->query("select id, nivel, num_afiliados from premios where id_red =".$id_red);
+		$q = $this->db->query("select id, nivel, num_afiliados, frecuencia from premios where id_red =".$id_red);
 		return $q->result();
 	}
 	
@@ -22,8 +22,8 @@ class modelo_premios extends CI_Model
 		return $q->result();
 	}
 	
-	function InsertarPremioAfiliado($id_premio,$id_afiliado){
-		if(!$this->consultar_premio_afiliado($id_premio, $id_afiliado)){
+	function InsertarPremioAfiliado($id_premio,$id_afiliado, $frecuencia){
+		if(!$this->consultar_premio_afiliado($id_premio, $id_afiliado, $frecuencia)){
 			$datos = array(
 					'id_premio' => $id_premio,
 					'id_afiliado' => $id_afiliado
@@ -51,8 +51,17 @@ class modelo_premios extends CI_Model
 		
 	}
 	
-	function consultar_premio_afiliado($id_premio,$id_afiliado){
-		$q = $this->db->query("select estado from cross_premio_usuario where id_premio = ".$id_premio." and id_afiliado = ".$id_afiliado);
+	function consultar_premio_afiliado($id_premio,$id_afiliado,$frecuencia){
+		if ($frecuencia=='Mensual'){
+			$mes = date("m");
+			$consulta = "and MONTH(fecha) = ".$mes;
+		}
+		
+		else if ($frecuencia=='Anual'){
+			$ano = date("Y");
+			$consulta = "and YEAR(fecha) = ".$ano;
+		}
+		$q = $this->db->query("select estado from cross_premio_usuario where id_premio = ".$id_premio." and id_afiliado = ".$id_afiliado." ".$consulta);
 		$premio = $q->result();
 		if(isset($premio[0]->estado)){
 			return true;

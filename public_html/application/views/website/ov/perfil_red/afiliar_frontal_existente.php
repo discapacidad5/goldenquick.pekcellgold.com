@@ -490,16 +490,8 @@ function InformarPremio(premio){
 							<div id="myTabContent1" class="tab-content padding-10">
 								<div class="tab-pane fade in active" id="s1">
 									<div id="uno" class="row fuelux">
-									<?php if($premio != 0){
-											if ($estadoPremio == 'Pendiente'){ ?>
-										<script type="text/javascript">
-										window.onload = function() {
-										    InformarPremio(<?php echo $premio; ?>);
-										    // Puedes agregar mas eventos que se ejecutaran al cargar la pagina
-										}
-										</script>
-									<?php }
-									}
+									
+									<?php 
 									if( $contar < $red_frontales[0]->frontal)  {   ?>
 	                                    
 	                                	

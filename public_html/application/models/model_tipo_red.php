@@ -33,7 +33,7 @@ class Model_tipo_red extends CI_Model{
 	
 	function RedesUsuario($id)
 	{
-		$q=$this->db->query('select tr.id, tr.nombre, tr.descripcion from tipo_red tr, afiliar a where tr.id = a.id_red and a.id_afiliado = '.$id." group by tr.id");
+		$q=$this->db->query('select tr.id, tr.nombre, tr.descripcion, tr.profundidad from tipo_red tr, afiliar a where tr.id = a.id_red and a.id_afiliado = '.$id." group by tr.id");
 		return $q->result();
 	}
 	

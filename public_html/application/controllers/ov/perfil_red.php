@@ -626,15 +626,6 @@ class perfil_red extends CI_Controller
 				$img_perfil=$img->url;
 			}
 		}
-		$estadoPremio = "";
-		$premio = $this->DeterminarPremio($id, $id_red);
-		
-		$infoPremio = $this->modelo_premios->verEstadoPremio($id);
-		
-		$estadoPremio = $infoPremio[0]->estado;
-		
-		$this->template->set("premio",$premio);
-		$this->template->set("estadoPremio",$estadoPremio);
 		$this->template->set("id",$id);
 		$this->template->set("style",$style);
 		$this->template->set("contar",count($afiliados));
@@ -693,14 +684,6 @@ class perfil_red extends CI_Controller
 			}
 		}
 		
-		$premio = $this->DeterminarPremio($id, $id_red);
-		$infoPremio = $this->modelo_premios->verEstadoPremio($id);
-		
-		$estadoPremio = $infoPremio[0]->estado;
-		
-		
-		$this->template->set("premio",$premio);
-		$this->template->set("estadoPremio",$estadoPremio);
 		$this->template->set("id",$id);
 		$this->template->set("style",$style);
 		$this->template->set("contar",count($afiliados));
@@ -762,14 +745,7 @@ class perfil_red extends CI_Controller
 				$img_perfil=$img->url;
 			}
 		}
-		$premio = $this->DeterminarPremio($id, $id_red);
-		$infoPremio = $this->modelo_premios->verEstadoPremio($id);
 		
-		$estadoPremio = $infoPremio[0]->estado;
-		
-		
-		$this->template->set("premio",$premio);
-		$this->template->set("estadoPremio",$estadoPremio);
 		$this->template->set("id",$id);
 		$this->template->set("style",$style);
 		$this->template->set("afiliados",$afiliados);
@@ -831,14 +807,7 @@ class perfil_red extends CI_Controller
 				$img_perfil=$img->url;
 			}
 		}
-		$premio = $this->DeterminarPremio($id, $id_red);
-		$infoPremio = $this->modelo_premios->verEstadoPremio($id);
 		
-		$estadoPremio = $infoPremio[0]->estado;
-		
-		
-		$this->template->set("premio",$premio);
-		$this->template->set("estadoPremio",$estadoPremio);
 		$this->template->set("id",$id);
 		$this->template->set("style",$style);
 		$this->template->set("afiliados",$afiliados);
