@@ -12,6 +12,11 @@ class modelo_premios extends CI_Model
 		return $q->result();
 	}
 	
+	function getPremiosActivos($id_red){
+		$q = $this->db->query("select id, nivel, num_afiliados, frecuencia from premios where id_red =".$id_red." and estatus = 'ACT'");
+		return $q->result();
+	}
+	
 	function ConsultarPremio($id){
 		$q = $this->db->query("select * from premios where id = ".$id);
 		return $q->result();
@@ -54,6 +59,7 @@ class modelo_premios extends CI_Model
 	function consultar_premio_afiliado($id_premio,$id_afiliado,$frecuencia){
 		if ($frecuencia=='Mensual'){
 			$mes = date("m");
+			
 			$consulta = "and MONTH(fecha) = ".$mes;
 		}
 		
@@ -61,8 +67,10 @@ class modelo_premios extends CI_Model
 			$ano = date("Y");
 			$consulta = "and YEAR(fecha) = ".$ano;
 		}
+		
 		$q = $this->db->query("select estado from cross_premio_usuario where id_premio = ".$id_premio." and id_afiliado = ".$id_afiliado." ".$consulta);
 		$premio = $q->result();
+		
 		if(isset($premio[0]->estado)){
 			return true;
 		}else{
@@ -107,12 +115,6 @@ where p.id = cpu.id_premio and cpu.id_afiliado = u.id and u.id = up.user_id and 
 
 where id_afiliado=".$id." and estado = 'Pendiente' and CPU.id_premio = P.id and P.id_red = TR.id");
 		$query = $query->result();
-/*HEAD
-		if(isset($query[0]->estado))
-			return $query[0]->estado;
-		else
-			return "Pendiente";
-=======*/
 		return $query;
 	}
 	

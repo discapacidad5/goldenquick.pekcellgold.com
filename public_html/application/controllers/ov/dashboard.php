@@ -49,7 +49,7 @@ class dashboard extends CI_Controller
 	
 	private function DeterminarPremio($id_afiliado,$id_red){
 		
-		$premios = $this->modelo_premios->getPremiosCondicion($id_red);
+		$premios = $this->modelo_premios->getPremiosActivos($id_red);
 		
 		foreach ($premios as $premio){
 	
