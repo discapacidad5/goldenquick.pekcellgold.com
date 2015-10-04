@@ -523,10 +523,13 @@ class perfil_red extends CI_Controller
 	
 	private function VerificarCompras($id_afiliado,$id_red,$nivel){
 		
-		$afiliados =$this->modelo_compras->traer_afiliados_red($id_afiliado, $id_red);
+		$afiliados = $this->modelo_compras->traer_afiliados_red($id_afiliado, $id_red);
+		
 		$id_categoria = $this->modelo_compras->ConsultarIdCategoriaMercancia($id_red);
 		$contador = 0;
+		
 		foreach ($afiliados as $afiliado2){
+			
 			if($this->modelo_compras->ComprovarCompraProducto($afiliado2->id_afiliado, $id_categoria)){
 				$contador = 1;
 			}
@@ -537,10 +540,12 @@ class perfil_red extends CI_Controller
 			}
 			$this->VerificarCompras($afiliado2->id_afiliado, $id_red,$nivel+1);
 		}
-		
+		var_dump($afiliados);
+		exit();
 	}
 	
 	private function DeterminarPremio($id_afiliado,$id_red){
+		
 		$this->VerificarCompras($id_afiliado, $id_red, 0);
 		//var_dump($this->afiliados); exit;
 		$premio = 0;
